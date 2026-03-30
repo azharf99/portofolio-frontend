@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Lock, User } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -30,6 +31,10 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans">
+      <Helmet>
+        <title>Login | Admin Azharfa</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 w-full max-w-md">
         <div className="text-center mb-8">
           <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">

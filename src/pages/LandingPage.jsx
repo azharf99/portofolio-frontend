@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { Search, Download, Briefcase, ExternalLink } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 export default function LandingPage() {
   const [portfolios, setPortfolios] = useState([]);
@@ -33,6 +34,19 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
+      <Helmet>
+        <title>Azharfa | Portofolio Profesional</title>
+        <meta name="description" content="Portofolio profesional Azharfa. Fokus pada Cybersecurity, Backend Development, dan System Architecture. Lihat proyek dan pengalaman saya di sini." />
+        <meta name="keywords" content="Azharfa, Portofolio, Cybersecurity, Backend Developer, Golang, React, System Architecture" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://azharfa.cloud/" />
+        
+        {/* Open Graph untuk Preview di WhatsApp/LinkedIn/Twitter */}
+        <meta property="og:title" content="Azharfa | Portofolio Profesional" />
+        <meta property="og:description" content="Lihat karya dan pengalaman saya di bidang Cybersecurity dan Backend Development." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://azharfa.cloud/" />
+      </Helmet>
       {/* HEADER / HERO SECTION */}
       <header className="bg-white shadow-sm py-16">
         <div className="max-w-5xl mx-auto px-6 text-center">

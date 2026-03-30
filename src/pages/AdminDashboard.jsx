@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { LogOut, Plus, Edit, Trash2, X } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 export default function AdminDashboard() {
   const [portfolios, setPortfolios] = useState([]);
@@ -72,6 +73,10 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans pb-12">
+      <Helmet>
+        <title>Dashboard | Admin Azharfa</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
       {/* Navbar Admin */}
       <nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center border-b border-gray-200">
         <h1 className="text-xl font-bold text-gray-800">Admin Dashboard</h1>

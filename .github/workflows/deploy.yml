@@ -1,0 +1,42 @@
+name: Deploy Portfolio Frontend to VPS
+
+on:
+  push:
+    branches: [ "main" ] # Hanya jalan ketika ada push ke branch main
+
+jobs:
+  build-and-deploy:
+    name: Build Portfolio Frontend and Deploy
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+    # 1. Mengambil kode dari repository
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. Menyiapkan lingkungan Node.js di server GitHub
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24' # Vite berjalan sangat optimal di Node 18+
+
+    # 3. Menginstal library (npm install)
+    - name: Install Dependencies
+      run: npm install
+
+    # 4. Melakukan proses Build (Mengubah React menjadi HTML/CSS/JS statis)
+    - name: Build Project
+      run: npm run build
+
+    # 5. Mengirim folder 'dist' hasil build ke VPS menggunakan SCP
+    - name: Deploy to VPS
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        source: "dist/*" # Ambil semua isi di dalam folder dist
+        target: "/var/www/portofolio" # Folder tujuan di VPS (Nginx)
+        strip_components: 1 # Penting: Agar file langsung masuk tanpa membuat sub-folder 'dist' lagi di VPS

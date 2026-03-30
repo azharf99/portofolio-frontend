@@ -74,7 +74,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 font-sans pb-12">
       <Helmet>
-        <title>Dashboard | Admin Azharfa</title>
+        <title>Dashboard | Admin Azhar Faturohman Ahidin</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       {/* Navbar Admin */}

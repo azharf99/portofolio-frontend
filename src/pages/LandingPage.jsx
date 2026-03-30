@@ -35,14 +35,14 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Helmet>
-        <title>Azharfa | Portofolio Profesional</title>
-        <meta name="description" content="Portofolio profesional Azharfa. Fokus pada Cybersecurity, Backend Development, dan System Architecture. Lihat proyek dan pengalaman saya di sini." />
-        <meta name="keywords" content="Azharfa, Portofolio, Cybersecurity, Backend Developer, Golang, React, System Architecture" />
+        <title>Azhar Faturohman Ahidin | Portofolio Profesional</title>
+        <meta name="description" content="Portofolio profesional Azhar Faturohman Ahidin. Fokus pada Cybersecurity, Backend Development, dan System Architecture. Lihat proyek dan pengalaman saya di sini." />
+        <meta name="keywords" content="Azhar Faturohman Ahidin, Portofolio, Cybersecurity, Backend Developer, Golang, React, System Architecture" />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://azharfa.cloud/" />
         
         {/* Open Graph untuk Preview di WhatsApp/LinkedIn/Twitter */}
-        <meta property="og:title" content="Azharfa | Portofolio Profesional" />
+        <meta property="og:title" content="Azhar Faturohman Ahidin | Portofolio Profesional" />
         <meta property="og:description" content="Lihat karya dan pengalaman saya di bidang Cybersecurity dan Backend Development." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://azharfa.cloud/" />
@@ -56,9 +56,8 @@ export default function LandingPage() {
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Seorang profesional yang berdedikasi tinggi. Di bawah ini adalah karya dan proyek yang pernah aku selesaikan. Fokus utamaku mencakup Cybersecurity, Backend Development, dan System Architecture.
           </p>
-          {/* Tombol Download CV (Pastikan file cv.pdf ada di folder 'public') */}
           <a 
-            href="/cv.pdf" 
+            href="/cv-azhar.pdf" 
             download 
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
           >

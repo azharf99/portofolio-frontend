@@ -32,7 +32,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans">
       <Helmet>
-        <title>Login | Admin Azharfa</title>
+        <title>Login | Admin Azhar Faturohman Ahidin</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 w-full max-w-md">

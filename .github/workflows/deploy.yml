@@ -38,5 +38,5 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         source: "dist/*" # Ambil semua isi di dalam folder dist
-        target: "/var/www/portofolio" # Folder tujuan di VPS (Nginx)
+        target: "/var/www/portfolio" # Folder tujuan di VPS (Nginx)
         strip_components: 1 # Penting: Agar file langsung masuk tanpa membuat sub-folder 'dist' lagi di VPS

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Lock, User } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { setToken } from '../lib/auth';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -13,17 +14,20 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!username.trim() || !password.trim()) {
+      setError('Username dan password wajib diisi.');
+      return;
+    }
+
     setLoading(true);
     setError('');
 
     try {
       const response = await api.post('/login', { username, password });
-      // Simpan token ke localStorage
-      localStorage.setItem('token', response.data.token);
-      // Arahkan ke dashboard admin
-      navigate('/admin');
+      setToken(response.data.token);
+      navigate('/admin/portfolios', { replace: true });
     } catch (err) {
-      setError(err.response?.data?.error || 'Login gagal. Periksa kembali username dan password.');
+      setError(err.message || 'Login gagal. Periksa kembali username dan password.');
     } finally {
       setLoading(false);
     }

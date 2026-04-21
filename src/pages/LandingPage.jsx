@@ -1,35 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 import { Search, Download, Briefcase, ExternalLink } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
+const DEFAULT_LIMIT = 6;
+
 export default function LandingPage() {
   const [portfolios, setPortfolios] = useState([]);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [industry, setIndustry] = useState('');
+  const [type, setType] = useState('');
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const limit = 6; // Menampilkan 6 portofolio per halaman
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const limit = DEFAULT_LIMIT;
 
-  // Fungsi untuk memanggil API
-  const fetchPortfolios = async () => {
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1);
+    }, 400);
+
+    return () => window.clearTimeout(timer);
+  }, [search]);
+
+  const fetchPortfolios = useCallback(async () => {
+    const safePage = Number.isInteger(page) && page > 0 ? page : 1;
+    const safeLimit = Number.isInteger(limit) && limit > 0 ? limit : DEFAULT_LIMIT;
+
+    setLoading(true);
+    setError('');
     try {
       const response = await api.get('/portfolios', {
-        params: { search, industry, page, limit }
+        params: { search: debouncedSearch, industry, type, page: safePage, limit: safeLimit }
       });
       setPortfolios(response.data.data || []);
       setTotal(response.data.total || 0);
     } catch (error) {
-      console.error("Gagal mengambil data:", error);
+      setError(error.message || 'Gagal mengambil data portfolio.');
+      setPortfolios([]);
+      setTotal(0);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [debouncedSearch, industry, limit, page, type]);
 
-  // Setiap kali search, industry, atau page berubah, panggil API lagi
   useEffect(() => {
     fetchPortfolios();
-  }, [search, industry, page]);
+  }, [fetchPortfolios]);
 
-  // Hitung total halaman
   const totalPages = Math.ceil(total / limit);
 
   return (
@@ -79,10 +100,10 @@ export default function LandingPage() {
               placeholder="Cari portofolio..." 
               className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
               value={search}
-              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="w-full md:w-auto">
+          <div className="w-full md:w-auto flex gap-3">
             <select 
               className="w-full md:w-48 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white"
               value={industry}
@@ -93,12 +114,31 @@ export default function LandingPage() {
               <option value="Web Development">Web Development</option>
               <option value="Fintech">Fintech</option>
             </select>
+            <select
+              className="w-full md:w-48 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white"
+              value={type}
+              onChange={(e) => {
+                setType(e.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="">Semua Tipe</option>
+              <option value="Web App">Web App</option>
+              <option value="Mobile App">Mobile App</option>
+              <option value="API Service">API Service</option>
+            </select>
           </div>
         </div>
 
         {/* Grid Portofolio */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {portfolios.length === 0 ? (
+          {loading ? (
+            [...Array(6)].map((_, idx) => (
+              <div key={idx} className="h-80 animate-pulse rounded-2xl bg-white border border-gray-100" />
+            ))
+          ) : error ? (
+            <div className="col-span-full text-center py-10 text-red-600">{error}</div>
+          ) : portfolios.length === 0 ? (
             <div className="col-span-full text-center py-10 text-gray-500">
               Belum ada data portofolio yang sesuai.
             </div>

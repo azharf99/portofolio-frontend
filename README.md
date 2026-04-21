@@ -1,16 +1,38 @@
-# React + Vite
+# Portfolio Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend untuk menampilkan portfolio publik dan panel admin (login, CRUD portfolio, update/delete user).
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+1. Install dependency:
+   - `npm install`
+2. Buat file env:
+   - salin `.env.example` menjadi `.env`
+3. Sesuaikan nilai env:
+   - `VITE_API_BASE_URL` default `/api`
+   - `VITE_TARGET_URL` URL backend untuk proxy dev Vite
 
-## React Compiler
+## Menjalankan Project
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Development: `npm run dev`
+- Lint: `npm run lint`
+- Build production: `npm run build`
+- Preview build: `npm run preview`
 
-## Expanding the ESLint configuration
+## Route Utama
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Public:
+  - `/` daftar portfolio + search/filter/pagination
+- Admin:
+  - `/admin/login`
+  - `/admin/portfolios`
+  - `/admin/portfolios/new`
+  - `/admin/portfolios/:id/edit`
+  - `/admin/users/:id/edit`
+
+## Catatan Implementasi
+
+- Token auth disimpan di memory + `localStorage`.
+- Semua request API otomatis membawa `Authorization: Bearer <token>` jika tersedia.
+- Error API sudah dinormalisasi untuk status `400/401/404/429/500`.
+- Saat `401`, token akan dibersihkan dan user diarahkan ulang ke halaman login admin.

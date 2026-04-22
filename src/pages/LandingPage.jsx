@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
+import ThemeToggle from '../components/ThemeToggle';
 import { Search, Download, Briefcase, ExternalLink, X } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
@@ -55,7 +56,7 @@ export default function LandingPage() {
   const totalPages = Math.ceil(total / limit);
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans transition-colors duration-300">
       <Helmet>
         <title>Azhar Faturohman Ahidin | Portofolio Profesional</title>
         <meta name="description" content="Portofolio profesional Azhar Faturohman Ahidin. Fokus pada Cybersecurity, Backend Development, dan System Architecture. Lihat proyek dan pengalaman saya di sini." />
@@ -70,12 +71,15 @@ export default function LandingPage() {
         <meta property="og:url" content="https://azharfa.cloud/" />
       </Helmet>
       {/* HEADER / HERO SECTION */}
-      <header className="bg-white shadow-sm py-16">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
-            Hi, Aku <span className="text-blue-600">Azhar Faturohman Ahidin</span>
+      <header className="bg-white dark:bg-gray-900 shadow-sm py-16 transition-colors border-b border-gray-100 dark:border-gray-800">
+        <div className="max-w-5xl mx-auto px-6 text-center relative">
+          <div className="absolute right-6 -top-10">
+            <ThemeToggle />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">
+            Hi, Aku <span className="text-blue-600 dark:text-blue-400">Azhar Faturohman Ahidin</span>
           </h1>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
             Seorang profesional yang berdedikasi tinggi. Di bawah ini adalah karya dan proyek yang pernah aku selesaikan. Fokus utamaku mencakup Cybersecurity, Backend Development, dan System Architecture.
           </p>
           <a
@@ -99,14 +103,14 @@ export default function LandingPage() {
             <input
               type="text"
               placeholder="Cari portofolio..."
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-colors"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="w-full md:w-auto flex gap-3">
             <select
-              className="w-full md:w-48 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white"
+              className="w-full md:w-48 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors"
               value={industry}
               onChange={(e) => { setIndustry(e.target.value); setPage(1); }}
             >
@@ -116,7 +120,7 @@ export default function LandingPage() {
               <option value="Fintech">Fintech</option>
             </select>
             <select
-              className="w-full md:w-48 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white"
+              className="w-full md:w-48 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors"
               value={type}
               onChange={(e) => {
                 setType(e.target.value);
@@ -135,12 +139,12 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {loading ? (
             [...Array(6)].map((_, idx) => (
-              <div key={idx} className="h-80 animate-pulse rounded-2xl bg-white border border-gray-100" />
+              <div key={idx} className="h-80 animate-pulse rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800" />
             ))
           ) : error ? (
-            <div className="col-span-full text-center py-10 text-red-600">{error}</div>
+            <div className="col-span-full text-center py-10 text-red-600 dark:text-red-400">{error}</div>
           ) : portfolios.length === 0 ? (
-            <div className="col-span-full text-center py-10 text-gray-500">
+            <div className="col-span-full text-center py-10 text-gray-500 dark:text-gray-400">
               Belum ada data portofolio yang sesuai.
             </div>
           ) : (
@@ -148,29 +152,29 @@ export default function LandingPage() {
               <div
                 key={item.id}
                 onClick={() => setSelectedPortfolio(item)}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col cursor-pointer group"
+                className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-md transition-all flex flex-col cursor-pointer group"
               >
-                <div className="h-48 bg-gray-200 relative overflow-hidden">
+                <div className="h-48 bg-gray-200 dark:bg-gray-800 relative overflow-hidden">
                   {/* Gunakan gambar dummy jika ImageURL kosong */}
                   <img
                     src={item.image_url || `https://placehold.co/400x200?text=${item.title}`}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className="absolute top-3 right-3 bg-white/90 px-3 py-1 rounded-full text-xs font-semibold text-gray-700 shadow-sm">
+                  <span className="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/90 px-3 py-1 rounded-full text-xs font-semibold text-gray-700 dark:text-gray-300 shadow-sm">
                     {item.industry}
                   </span>
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{item.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{item.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{item.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">{item.description}</p>
 
-                  <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-                    <span className="flex items-center gap-2 text-sm text-gray-500 font-medium">
-                      <Briefcase size={16} className="text-blue-500" />
+                  <div className="mt-auto pt-4 border-t border-gray-50 dark:border-gray-800 flex items-center justify-between">
+                    <span className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 font-medium">
+                      <Briefcase size={16} className="text-blue-500 dark:text-blue-400" />
                       {item.role}
                     </span>
-                    <div className="flex items-center gap-1 text-blue-600 font-semibold text-sm">
+                    <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-semibold text-sm">
                       Detail <ExternalLink size={14} />
                     </div>
                   </div>
@@ -187,17 +191,17 @@ export default function LandingPage() {
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
               onClick={() => setSelectedPortfolio(null)}
             />
-            <div className="relative bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in duration-300">
+            <div className="relative bg-white dark:bg-gray-900 w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in duration-300">
               {/* Header Modal */}
-              <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
-                <h2 className="text-xl font-bold text-gray-900 truncate pr-4">
+              <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white truncate pr-4">
                   {selectedPortfolio.title}
                 </h2>
                 <button
                   onClick={() => setSelectedPortfolio(null)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
                 >
-                  <X size={24} className="text-gray-500" />
+                  <X size={24} className="text-gray-500 dark:text-gray-400" />
                 </button>
               </div>
 
@@ -206,7 +210,7 @@ export default function LandingPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Bagian Gambar & Galeri */}
                   <div>
-                    <div className="rounded-2xl overflow-hidden bg-gray-100 aspect-video mb-4">
+                    <div className="rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 aspect-video mb-4">
                       <img
                         src={selectedPortfolio.image_url || `https://placehold.co/800x450?text=${selectedPortfolio.title}`}
                         alt={selectedPortfolio.title}
@@ -222,7 +226,7 @@ export default function LandingPage() {
                             href={img.image_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="aspect-square rounded-lg overflow-hidden bg-gray-100 border border-gray-100 hover:border-blue-500 transition-colors"
+                            className="aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
                           >
                             <img
                               src={img.image_url}
@@ -238,31 +242,31 @@ export default function LandingPage() {
                   {/* Bagian Informasi */}
                   <div className="flex flex-col">
                     <div className="mb-6">
-                      <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Deskripsi Proyek</h4>
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                      <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Deskripsi Proyek</h4>
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
                         {selectedPortfolio.description}
                       </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       <div>
-                        <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Role</h4>
-                        <p className="text-gray-900 font-medium">{selectedPortfolio.role}</p>
+                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Role</h4>
+                        <p className="text-gray-900 dark:text-gray-200 font-medium">{selectedPortfolio.role}</p>
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Industry</h4>
-                        <p className="text-gray-900 font-medium">{selectedPortfolio.industry}</p>
+                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Industry</h4>
+                        <p className="text-gray-900 dark:text-gray-200 font-medium">{selectedPortfolio.industry}</p>
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Type</h4>
-                        <p className="text-gray-900 font-medium">{selectedPortfolio.type}</p>
+                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Type</h4>
+                        <p className="text-gray-900 dark:text-gray-200 font-medium">{selectedPortfolio.type}</p>
                       </div>
                       {selectedPortfolio.tech_stack && (
                         <div>
-                          <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Tech Stack</h4>
+                          <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Tech Stack</h4>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {selectedPortfolio.tech_stack.split(',').map((tech, i) => (
-                              <span key={i} className="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md font-semibold">
+                              <span key={i} className="text-[10px] bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md font-semibold">
                                 {tech.trim()}
                               </span>
                             ))}
@@ -296,15 +300,15 @@ export default function LandingPage() {
             <button
               disabled={page === 1}
               onClick={() => setPage(page - 1)}
-              className="px-4 py-2 bg-white border border-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 rounded-lg disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               Sebelumnya
             </button>
-            <span className="text-gray-600 font-medium">Halaman {page} dari {totalPages}</span>
+            <span className="text-gray-600 dark:text-gray-400 font-medium">Halaman {page} dari {totalPages}</span>
             <button
               disabled={page === totalPages}
               onClick={() => setPage(page + 1)}
-              className="px-4 py-2 bg-white border border-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 rounded-lg disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
               Selanjutnya
             </button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import LandingPage from './pages/LandingPage';
@@ -9,6 +9,18 @@ import AdminPortfolioForm from './pages/AdminPortfolioForm';
 import AdminUserEdit from './pages/AdminUserEdit';
 
 export default function App() {
+  useEffect(() => {
+    // Inisialisasi tema
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
   return (
     <HelmetProvider>
       <BrowserRouter>

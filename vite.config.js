@@ -18,6 +18,10 @@ export default defineConfig(({ mode }) => {
           target: targetUrl,
           changeOrigin: true,
         },
+        '/uploads': {
+          target: targetUrl,
+          changeOrigin: true,
+        },
       },
     },
   }

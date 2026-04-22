@@ -169,16 +169,52 @@ export default function AdminPortfolioForm() {
           <input name="tech_stack" value={formData.tech_stack} onChange={handleChange} placeholder="Tech stack" className="p-2 border rounded-lg md:col-span-2" />
           <textarea required name="description" value={formData.description} onChange={handleChange} placeholder="Deskripsi" rows={4} className="p-2 border rounded-lg md:col-span-2" />
           <input name="project_link" value={formData.project_link} onChange={handleChange} placeholder="Project URL" className="p-2 border rounded-lg" />
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-gray-500 px-1">Gambar Utama (Thumbnail)</label>
-            <input type="file" name="image" onChange={handleChange} accept="image/*" className="text-sm p-1.5 border rounded-lg" />
-            {formData.image_url && !mainImage && (
-              <p className="text-[10px] text-gray-400 px-1">Menggunakan: {formData.image_url}</p>
-            )}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold text-gray-500 uppercase tracking-wider px-1">Gambar Utama (Thumbnail)</label>
+            <div className="flex items-start gap-4">
+              {(mainImage || formData.image_url) && (
+                <div className="w-20 h-20 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 shrink-0">
+                  <img 
+                    src={mainImage ? URL.createObjectURL(mainImage) : formData.image_url} 
+                    alt="Preview" 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+              )}
+              <div className="flex-grow">
+                <input type="file" name="image" onChange={handleChange} accept="image/*" className="w-full text-sm p-1.5 border rounded-lg file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                {formData.image_url && !mainImage && (
+                  <p className="text-[10px] text-gray-400 mt-1 px-1">Current: {formData.image_url}</p>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-gray-500 px-1">Galeri Gambar (Opsional)</label>
-            <input type="file" name="images" multiple onChange={handleChange} accept="image/*" className="text-sm p-1.5 border rounded-lg" />
+
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold text-gray-500 uppercase tracking-wider px-1">Galeri Gambar (Multiple)</label>
+            <div className="flex flex-col gap-3">
+              {/* Existing Gallery Preview */}
+              {formData.images && formData.images.length > 0 && !galleryImages.length && (
+                <div className="flex flex-wrap gap-2 p-2 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                  {formData.images.map((img) => (
+                    <div key={img.id} className="w-12 h-12 rounded-md overflow-hidden border border-gray-200">
+                      <img src={img.image_url} alt="Gallery" className="w-full h-full object-cover" title={img.image_url} />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* New Uploads Preview */}
+              {galleryImages.length > 0 && (
+                <div className="flex flex-wrap gap-2 p-2 bg-blue-50 rounded-lg border border-dashed border-blue-200">
+                  {galleryImages.map((file, idx) => (
+                    <div key={idx} className="w-12 h-12 rounded-md overflow-hidden border border-blue-200">
+                      <img src={URL.createObjectURL(file)} alt="New Gallery" className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              )}
+              <input type="file" name="images" multiple onChange={handleChange} accept="image/*" className="w-full text-sm p-1.5 border rounded-lg file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+            </div>
           </div>
           <input type="date" name="start_date" value={formData.start_date} onChange={handleChange} className="p-2 border rounded-lg" />
           <input type="date" name="end_date" value={formData.end_date} onChange={handleChange} className="p-2 border rounded-lg" />

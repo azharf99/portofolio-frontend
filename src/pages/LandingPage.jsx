@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
-import { Search, Download, Briefcase, ExternalLink } from 'lucide-react';
+import { Search, Download, Briefcase, ExternalLink, X } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
 const DEFAULT_LIMIT = 6;
@@ -15,6 +15,7 @@ export default function LandingPage() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedPortfolio, setSelectedPortfolio] = useState(null);
   const limit = DEFAULT_LIMIT;
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export default function LandingPage() {
         <meta name="keywords" content="Azhar Faturohman Ahidin, Portofolio, Cybersecurity, Backend Developer, Golang, React, System Architecture" />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://azharfa.cloud/" />
-        
+
         {/* Open Graph untuk Preview di WhatsApp/LinkedIn/Twitter */}
         <meta property="og:title" content="Azhar Faturohman Ahidin | Portofolio Profesional" />
         <meta property="og:description" content="Lihat karya dan pengalaman saya di bidang Cybersecurity dan Backend Development." />
@@ -77,9 +78,9 @@ export default function LandingPage() {
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Seorang profesional yang berdedikasi tinggi. Di bawah ini adalah karya dan proyek yang pernah aku selesaikan. Fokus utamaku mencakup Cybersecurity, Backend Development, dan System Architecture.
           </p>
-          <a 
-            href="/cv-azhar.pdf" 
-            download 
+          <a
+            href="/cv-azhar.pdf"
+            download
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
           >
             <Download size={20} />
@@ -90,21 +91,21 @@ export default function LandingPage() {
 
       {/* MAIN CONTENT (FILTER & LIST) */}
       <main className="max-w-6xl mx-auto px-6 py-12">
-        
+
         {/* Fitur Search & Filter */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
           <div className="relative w-full md:w-96">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input 
-              type="text" 
-              placeholder="Cari portofolio..." 
+            <input
+              type="text"
+              placeholder="Cari portofolio..."
               className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="w-full md:w-auto flex gap-3">
-            <select 
+            <select
               className="w-full md:w-48 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white"
               value={industry}
               onChange={(e) => { setIndustry(e.target.value); setPage(1); }}
@@ -144,28 +145,34 @@ export default function LandingPage() {
             </div>
           ) : (
             portfolios.map((item) => (
-              <div key={item.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
-                <div className="h-48 bg-gray-200 relative">
+              <div
+                key={item.id}
+                onClick={() => setSelectedPortfolio(item)}
+                className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col cursor-pointer group"
+              >
+                <div className="h-48 bg-gray-200 relative overflow-hidden">
                   {/* Gunakan gambar dummy jika ImageURL kosong */}
-                  <img src={item.image_url || `https://via.placeholder.com/400x200?text=${item.title}`} alt={item.title} className="w-full h-full object-cover" />
+                  <img
+                    src={item.image_url || `https://placehold.co/400x200?text=${item.title}`}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                   <span className="absolute top-3 right-3 bg-white/90 px-3 py-1 rounded-full text-xs font-semibold text-gray-700 shadow-sm">
                     {item.industry}
                   </span>
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">{item.description}</p>
-                  
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{item.title}</h3>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{item.description}</p>
+
                   <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
                     <span className="flex items-center gap-2 text-sm text-gray-500 font-medium">
                       <Briefcase size={16} className="text-blue-500" />
                       {item.role}
                     </span>
-                    {item.project_link && (
-                      <a href={item.project_link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
-                        <ExternalLink size={20} />
-                      </a>
-                    )}
+                    <div className="flex items-center gap-1 text-blue-600 font-semibold text-sm">
+                      Detail <ExternalLink size={14} />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -173,10 +180,120 @@ export default function LandingPage() {
           )}
         </div>
 
+        {/* Modal Detail Portfolio */}
+        {selectedPortfolio && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+            <div
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setSelectedPortfolio(null)}
+            />
+            <div className="relative bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in duration-300">
+              {/* Header Modal */}
+              <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100">
+                <h2 className="text-xl font-bold text-gray-900 truncate pr-4">
+                  {selectedPortfolio.title}
+                </h2>
+                <button
+                  onClick={() => setSelectedPortfolio(null)}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <X size={24} className="text-gray-500" />
+                </button>
+              </div>
+
+              {/* Konten Modal */}
+              <div className="overflow-y-auto p-6 flex-grow">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Bagian Gambar & Galeri */}
+                  <div>
+                    <div className="rounded-2xl overflow-hidden bg-gray-100 aspect-video mb-4">
+                      <img
+                        src={selectedPortfolio.image_url || `https://placehold.co/800x450?text=${selectedPortfolio.title}`}
+                        alt={selectedPortfolio.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {selectedPortfolio.images && selectedPortfolio.images.length > 0 && (
+                      <div className="grid grid-cols-4 gap-2">
+                        {selectedPortfolio.images.map((img) => (
+                          <a
+                            key={img.id}
+                            href={img.image_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="aspect-square rounded-lg overflow-hidden bg-gray-100 border border-gray-100 hover:border-blue-500 transition-colors"
+                          >
+                            <img
+                              src={img.image_url}
+                              alt="Gallery Item"
+                              className="w-full h-full object-cover"
+                            />
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bagian Informasi */}
+                  <div className="flex flex-col">
+                    <div className="mb-6">
+                      <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Deskripsi Proyek</h4>
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                        {selectedPortfolio.description}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div>
+                        <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Role</h4>
+                        <p className="text-gray-900 font-medium">{selectedPortfolio.role}</p>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Industry</h4>
+                        <p className="text-gray-900 font-medium">{selectedPortfolio.industry}</p>
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Type</h4>
+                        <p className="text-gray-900 font-medium">{selectedPortfolio.type}</p>
+                      </div>
+                      {selectedPortfolio.tech_stack && (
+                        <div>
+                          <h4 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Tech Stack</h4>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {selectedPortfolio.tech_stack.split(',').map((tech, i) => (
+                              <span key={i} className="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md font-semibold">
+                                {tech.trim()}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {selectedPortfolio.project_link && (
+                      <div className="mt-auto">
+                        <a
+                          href={selectedPortfolio.project_link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-blue-200"
+                        >
+                          Visit Project <ExternalLink size={18} />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center gap-4 mt-12">
-            <button 
+            <button
               disabled={page === 1}
               onClick={() => setPage(page - 1)}
               className="px-4 py-2 bg-white border border-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-50 transition-colors"
@@ -184,7 +301,7 @@ export default function LandingPage() {
               Sebelumnya
             </button>
             <span className="text-gray-600 font-medium">Halaman {page} dari {totalPages}</span>
-            <button 
+            <button
               disabled={page === totalPages}
               onClick={() => setPage(page + 1)}
               className="px-4 py-2 bg-white border border-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-50 transition-colors"

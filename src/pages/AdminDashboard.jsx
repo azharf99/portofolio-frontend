@@ -17,7 +17,7 @@ export default function AdminDashboard() {
     setLoading(true);
     setError('');
     try {
-      const response = await api.get('/portfolios?limit=100');
+      const response = await api.get('/admin/portfolios?limit=100');
       setPortfolios(response.data.data || []);
     } catch (error) {
       setError(error.message || 'Gagal mengambil data portfolio.');

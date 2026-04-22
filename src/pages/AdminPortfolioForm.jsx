@@ -11,7 +11,7 @@ const emptyForm = {
   industry: '',
   tech_stack: '',
   project_link: '',
-  image_url: '',
+  image_url: '', // existing image URL
   start_date: '',
   end_date: '',
   is_published: true,
@@ -43,6 +43,8 @@ export default function AdminPortfolioForm() {
       end_date: editingPortfolio.end_date?.slice(0, 10) || '',
     };
   });
+  const [mainImage, setMainImage] = useState(null);
+  const [galleryImages, setGalleryImages] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [saving, setSaving] = useState(false);
@@ -61,7 +63,11 @@ export default function AdminPortfolioForm() {
     }
 
     if (!isValidUrl(formData.project_link)) return 'Project link harus URL valid.';
-    if (!isValidUrl(formData.image_url)) return 'Image URL harus URL valid.';
+
+    // Main Image wajib saat Create jika tidak ada image_url
+    if (!isEdit && !mainImage) {
+      return 'Gambar utama wajib diunggah untuk portfolio baru.';
+    }
 
     if (formData.start_date && formData.end_date) {
       const start = new Date(formData.start_date);
@@ -84,17 +90,33 @@ export default function AdminPortfolioForm() {
     setError('');
     setSuccess('');
 
-    const payload = {
-      ...formData,
-      start_date: formData.start_date ? new Date(formData.start_date).toISOString() : null,
-      end_date: formData.end_date ? new Date(formData.end_date).toISOString() : null,
-    };
+    const data = new FormData();
+    // Tambahkan field text
+    Object.keys(formData).forEach((key) => {
+      if (formData[key] !== null && formData[key] !== undefined) {
+        data.append(key, formData[key]);
+      }
+    });
+
+    // Tambahkan file image utama
+    if (mainImage) {
+      data.append('image', mainImage);
+    }
+
+    // Tambahkan file gallery
+    galleryImages.forEach((file) => {
+      data.append('images', file);
+    });
 
     try {
       if (isEdit) {
-        await api.put(`/admin/portfolios/${id}`, payload);
+        await api.put(`/admin/portfolios/${id}`, data, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
       } else {
-        await api.post('/admin/portfolios', payload);
+        await api.post('/admin/portfolios', data, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
       }
       setSuccess('Data berhasil disimpan.');
       setTimeout(() => navigate('/admin/portfolios'), 700);
@@ -106,7 +128,15 @@ export default function AdminPortfolioForm() {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
+    if (type === 'file') {
+      if (name === 'image') {
+        setMainImage(files[0]);
+      } else if (name === 'images') {
+        setGalleryImages(Array.from(files));
+      }
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -139,7 +169,17 @@ export default function AdminPortfolioForm() {
           <input name="tech_stack" value={formData.tech_stack} onChange={handleChange} placeholder="Tech stack" className="p-2 border rounded-lg md:col-span-2" />
           <textarea required name="description" value={formData.description} onChange={handleChange} placeholder="Deskripsi" rows={4} className="p-2 border rounded-lg md:col-span-2" />
           <input name="project_link" value={formData.project_link} onChange={handleChange} placeholder="Project URL" className="p-2 border rounded-lg" />
-          <input name="image_url" value={formData.image_url} onChange={handleChange} placeholder="Image URL" className="p-2 border rounded-lg" />
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-gray-500 px-1">Gambar Utama (Thumbnail)</label>
+            <input type="file" name="image" onChange={handleChange} accept="image/*" className="text-sm p-1.5 border rounded-lg" />
+            {formData.image_url && !mainImage && (
+              <p className="text-[10px] text-gray-400 px-1">Menggunakan: {formData.image_url}</p>
+            )}
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-xs text-gray-500 px-1">Galeri Gambar (Opsional)</label>
+            <input type="file" name="images" multiple onChange={handleChange} accept="image/*" className="text-sm p-1.5 border rounded-lg" />
+          </div>
           <input type="date" name="start_date" value={formData.start_date} onChange={handleChange} className="p-2 border rounded-lg" />
           <input type="date" name="end_date" value={formData.end_date} onChange={handleChange} className="p-2 border rounded-lg" />
           <label className="md:col-span-2 inline-flex items-center gap-2 text-sm text-gray-700">

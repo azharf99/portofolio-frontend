@@ -49,6 +49,28 @@ export default function LandingPage() {
     }
   }, [debouncedSearch, industry, limit, page, type]);
 
+  const handleImageError = (e) => {
+    const target = e.target;
+    if (!target.dataset.retryCount) {
+      target.dataset.retryCount = '0';
+    }
+    const count = parseInt(target.dataset.retryCount);
+    
+    // Maksimal 5 kali retry
+    if (count < 5) {
+      target.dataset.retryCount = (count + 1).toString();
+      // Exponential backoff: 1s, 2s, 4s, 8s, 16s + random jitter
+      const delay = Math.pow(2, count) * 1000 + Math.random() * 1000;
+      
+      setTimeout(() => {
+        const currentSrc = target.src;
+        // Reset src untuk memicu reload
+        target.src = '';
+        target.src = currentSrc;
+      }, delay);
+    }
+  };
+
   useEffect(() => {
     fetchPortfolios();
   }, [fetchPortfolios]);
@@ -163,6 +185,7 @@ export default function LandingPage() {
                     src={item.image_url || `https://placehold.co/400x200?text=${item.title}`}
                     alt={item.title}
                     loading="lazy"
+                    onError={handleImageError}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <span className="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/90 px-3 py-1 rounded-full text-xs font-semibold text-gray-700 dark:text-gray-300 shadow-sm">
@@ -219,6 +242,7 @@ export default function LandingPage() {
                         src={selectedPortfolio.image_url || `https://placehold.co/800x450?text=${selectedPortfolio.title}`}
                         alt={selectedPortfolio.title}
                         loading="lazy"
+                        onError={handleImageError}
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -238,18 +262,7 @@ export default function LandingPage() {
                               alt="Gallery Item"
                               loading="lazy"
                               className="w-full h-full object-cover"
-                              onError={(e) => {
-                                // Simple retry for 429 or other errors
-                                const target = e.target;
-                                if (!target.dataset.retried) {
-                                  target.dataset.retried = 'true';
-                                  setTimeout(() => {
-                                    const currentSrc = target.src;
-                                    target.src = '';
-                                    target.src = currentSrc;
-                                  }, 1000);
-                                }
-                              }}
+                              onError={handleImageError}
                             />
                           </a>
                         ))}

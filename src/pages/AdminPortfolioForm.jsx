@@ -35,6 +35,25 @@ export default function AdminPortfolioForm() {
   const editingPortfolio = state?.portfolio || null;
   const isEdit = Boolean(id);
 
+  const handleImageError = (e) => {
+    const target = e.target;
+    if (!target.dataset.retryCount) {
+      target.dataset.retryCount = '0';
+    }
+    const count = parseInt(target.dataset.retryCount);
+    
+    if (count < 5) {
+      target.dataset.retryCount = (count + 1).toString();
+      const delay = Math.pow(2, count) * 1000 + Math.random() * 1000;
+      
+      setTimeout(() => {
+        const currentSrc = target.src;
+        target.src = '';
+        target.src = currentSrc;
+      }, delay);
+    }
+  };
+
   const [formData, setFormData] = useState(() => {
     if (!editingPortfolio) return emptyForm;
     return {
@@ -202,6 +221,7 @@ export default function AdminPortfolioForm() {
                   <img 
                     src={mainImage ? URL.createObjectURL(mainImage) : formData.image_url} 
                     alt="Preview" 
+                    onError={!mainImage ? handleImageError : undefined}
                     className="w-full h-full object-cover" 
                   />
                 </div>
@@ -223,7 +243,7 @@ export default function AdminPortfolioForm() {
                 <div className="flex flex-wrap gap-2 p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-dashed border-gray-200 dark:border-gray-700">
                   {formData.images.map((img) => (
                     <div key={img.id} className="w-12 h-12 rounded-md overflow-hidden border border-gray-200">
-                      <img src={img.image_url} alt="Gallery" className="w-full h-full object-cover" title={img.image_url} />
+                      <img src={img.image_url} alt="Gallery" onError={handleImageError} className="w-full h-full object-cover" title={img.image_url} />
                     </div>
                   ))}
                 </div>

@@ -4,6 +4,7 @@ import ThemeToggle from '../components/ThemeToggle';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { Search, Download, Briefcase, ExternalLink, X, Github, Linkedin } from 'lucide-react';
+import { sanitizeUrl } from '../lib/sanitizeUrl';
 import { Helmet } from 'react-helmet-async';
 
 const DEFAULT_LIMIT = 6;
@@ -276,7 +277,7 @@ export default function LandingPage() {
                         {selectedPortfolio.images.map((img) => (
                           <a
                             key={img.id}
-                            href={img.image_url}
+                            href={sanitizeUrl(img.image_url)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="aspect-square rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
@@ -333,7 +334,7 @@ export default function LandingPage() {
                     {selectedPortfolio.project_link && (
                       <div className="mt-auto">
                         <a
-                          href={selectedPortfolio.project_link}
+                          href={sanitizeUrl(selectedPortfolio.project_link)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-blue-200"

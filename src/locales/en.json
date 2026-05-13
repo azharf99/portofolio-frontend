@@ -1,0 +1,106 @@
+{
+  "hero": {
+    "title": "Hi, I'm",
+    "description": "A highly dedicated professional. Below are the works and projects I have completed. My main focus includes Cybersecurity, Backend Development, and System Architecture.",
+    "download_cv": "Download CV"
+  },
+  "search": {
+    "placeholder": "Search portfolio...",
+    "all_industries": "All Industries",
+    "all_types": "All Types"
+  },
+  "portfolio": {
+    "empty": "No matching portfolio data found.",
+    "detail": "Detail",
+    "visit_project": "Visit Project",
+    "role": "Role",
+    "industry": "Industry",
+    "type": "Type",
+    "tech_stack": "Tech Stack",
+    "project_description": "Project Description"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page_info": "Page {{page}} of {{total}}"
+  },
+  "login": {
+    "title": "Admin Login",
+    "subtitle": "Sign in to manage your portfolio",
+    "username": "Username",
+    "password": "Password",
+    "button": "Sign In",
+    "button_loading": "Checking...",
+    "back_to_home": "Back to Home",
+    "error_required": "Username and password are required.",
+    "error_failed": "Login failed. Check your username and password."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred."
+  },
+  "admin": {
+    "dashboard_title": "Admin Dashboard",
+    "view_public": "View Public Web",
+    "logout": "Logout",
+    "manage_portfolio": "Manage Portfolio",
+    "manage_user": "Manage User",
+    "add_new": "Add New",
+    "table_title": "Title",
+    "table_industry": "Industry",
+    "table_type": "Type",
+    "table_actions": "Actions",
+    "empty": "No portfolio data. Please add a new one.",
+    "confirm_delete": "Are you sure you want to delete this portfolio?",
+    "delete_success": "Portfolio deleted successfully.",
+    "delete_error": "Failed to delete data.",
+    "fetch_error": "Failed to fetch portfolio data."
+  },
+  "form": {
+    "add_title": "Add Portfolio",
+    "edit_title": "Edit Portfolio",
+    "label_title": "Project Title",
+    "label_role": "Role",
+    "label_industry": "Industry",
+    "label_type": "Type",
+    "label_tech_stack": "Tech Stack (Separate with commas)",
+    "label_description": "Description",
+    "label_project_url": "Project URL",
+    "label_main_image": "Main Image (Thumbnail)",
+    "label_gallery": "Image Gallery (Multiple)",
+    "label_start_date": "Start Date",
+    "label_end_date": "End Date",
+    "label_published": "Show on public page",
+    "placeholder_title": "Project title",
+    "placeholder_role": "Role",
+    "placeholder_industry": "Industry",
+    "placeholder_type": "Type",
+    "placeholder_tech_stack": "Example: React, Node.js, Tailwind",
+    "placeholder_description": "Describe this project in detail...",
+    "button_save": "Save Portfolio",
+    "button_saving": "Saving...",
+    "button_cancel": "Cancel",
+    "success_save": "Data saved successfully.",
+    "error_save": "Failed to save data.",
+    "error_required": "Required fields are incomplete.",
+    "error_invalid_url": "Project link must be a valid URL.",
+    "error_image_required": "Main image is required for new portfolio.",
+    "error_date_range": "End date cannot be earlier than start date.",
+    "error_not_found": "Initial edit data not found. Please return to the list and select the data you want to edit."
+  },
+  "user": {
+    "edit_title": "Edit Admin User",
+    "label_username": "New username (optional)",
+    "label_password": "New password (optional)",
+    "button_delete": "Delete User",
+    "button_save": "Save",
+    "button_saving": "Saving...",
+    "button_back": "Back",
+    "error_required": "Fill in at least username or password.",
+    "success_update": "User updated successfully.",
+    "error_update": "Failed to update user.",
+    "confirm_delete": "Are you sure you want to delete this user?",
+    "success_delete": "User deleted successfully.",
+    "error_delete": "Failed to delete user."
+  }
+}

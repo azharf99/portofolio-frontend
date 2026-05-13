@@ -1,0 +1,106 @@
+{
+  "hero": {
+    "title": "Hi, Aku",
+    "description": "Seorang profesional yang berdedikasi tinggi. Di bawah ini adalah karya dan proyek yang pernah aku selesaikan. Fokus utamaku mencakup Cybersecurity, Backend Development, dan System Architecture.",
+    "download_cv": "Download CV"
+  },
+  "search": {
+    "placeholder": "Cari portofolio...",
+    "all_industries": "Semua Industri",
+    "all_types": "Semua Tipe"
+  },
+  "portfolio": {
+    "empty": "Belum ada data portofolio yang sesuai.",
+    "detail": "Detail",
+    "visit_project": "Visit Project",
+    "role": "Role",
+    "industry": "Industry",
+    "type": "Type",
+    "tech_stack": "Tech Stack",
+    "project_description": "Deskripsi Proyek"
+  },
+  "pagination": {
+    "previous": "Sebelumnya",
+    "next": "Selanjutnya",
+    "page_info": "Halaman {{page}} dari {{total}}"
+  },
+  "login": {
+    "title": "Admin Login",
+    "subtitle": "Masuk untuk mengelola portofoliomu",
+    "username": "Username",
+    "password": "Password",
+    "button": "Masuk",
+    "button_loading": "Memeriksa...",
+    "back_to_home": "Kembali ke Beranda",
+    "error_required": "Username dan password wajib diisi.",
+    "error_failed": "Login gagal. Periksa kembali username dan password."
+  },
+  "common": {
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan."
+  },
+  "admin": {
+    "dashboard_title": "Admin Dashboard",
+    "view_public": "Lihat Web Public",
+    "logout": "Logout",
+    "manage_portfolio": "Kelola Portofolio",
+    "manage_user": "Kelola User",
+    "add_new": "Tambah Baru",
+    "table_title": "Judul",
+    "table_industry": "Industri",
+    "table_type": "Tipe",
+    "table_actions": "Aksi",
+    "empty": "Belum ada portofolio. Silakan tambah baru.",
+    "confirm_delete": "Yakin ingin menghapus portofolio ini?",
+    "delete_success": "Portfolio berhasil dihapus.",
+    "delete_error": "Gagal menghapus data.",
+    "fetch_error": "Gagal mengambil data portfolio."
+  },
+  "form": {
+    "add_title": "Tambah Portfolio",
+    "edit_title": "Edit Portfolio",
+    "label_title": "Judul Project",
+    "label_role": "Role",
+    "label_industry": "Industry",
+    "label_type": "Type",
+    "label_tech_stack": "Tech Stack (Pisahkan dengan koma)",
+    "label_description": "Deskripsi",
+    "label_project_url": "Project URL",
+    "label_main_image": "Gambar Utama (Thumbnail)",
+    "label_gallery": "Galeri Gambar (Multiple)",
+    "label_start_date": "Tanggal Mulai",
+    "label_end_date": "Tanggal Selesai",
+    "label_published": "Tampilkan di halaman publik",
+    "placeholder_title": "Judul project",
+    "placeholder_role": "Role",
+    "placeholder_industry": "Industry",
+    "placeholder_type": "Type",
+    "placeholder_tech_stack": "Contoh: React, Node.js, Tailwind",
+    "placeholder_description": "Jelaskan detail proyek ini...",
+    "button_save": "Simpan Portfolio",
+    "button_saving": "Menyimpan...",
+    "button_cancel": "Batal",
+    "success_save": "Data berhasil disimpan.",
+    "error_save": "Gagal menyimpan data.",
+    "error_required": "Field wajib belum lengkap.",
+    "error_invalid_url": "Project link harus URL valid.",
+    "error_image_required": "Gambar utama wajib diunggah untuk portfolio baru.",
+    "error_date_range": "Tanggal selesai tidak boleh lebih kecil dari tanggal mulai.",
+    "error_not_found": "Data awal edit tidak ditemukan. Silakan kembali ke list dan pilih data yang ingin diedit."
+  },
+  "user": {
+    "edit_title": "Edit User Admin",
+    "label_username": "Username baru (opsional)",
+    "label_password": "Password baru (opsional)",
+    "button_delete": "Hapus User",
+    "button_save": "Simpan",
+    "button_saving": "Menyimpan...",
+    "button_back": "Kembali",
+    "error_required": "Isi minimal username atau password.",
+    "success_update": "User berhasil diperbarui.",
+    "error_update": "Gagal memperbarui user.",
+    "confirm_delete": "Yakin ingin menghapus user ini?",
+    "success_delete": "User berhasil dihapus.",
+    "error_delete": "Gagal menghapus user."
+  }
+}

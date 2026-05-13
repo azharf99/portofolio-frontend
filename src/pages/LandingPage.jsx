@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
-import { Search, Download, Briefcase, ExternalLink, X } from 'lucide-react';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
+import { Search, Download, Briefcase, ExternalLink, X, Github, Linkedin } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
 const DEFAULT_LIMIT = 6;
 
 export default function LandingPage() {
+  const { t, i18n } = useTranslation();
   const [portfolios, setPortfolios] = useState([]);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -41,13 +44,13 @@ export default function LandingPage() {
       setPortfolios(response.data.data || []);
       setTotal(response.data.total || 0);
     } catch (error) {
-      setError(error.message || 'Gagal mengambil data portfolio.');
+      setError(error.message || t('common.error'));
       setPortfolios([]);
       setTotal(0);
     } finally {
       setLoading(false);
     }
-  }, [debouncedSearch, industry, limit, page, type]);
+  }, [debouncedSearch, industry, limit, page, type, i18n.language, t]);
 
   const handleImageError = (e) => {
     const target = e.target;
@@ -95,23 +98,44 @@ export default function LandingPage() {
       {/* HEADER / HERO SECTION */}
       <header className="bg-white dark:bg-gray-900 shadow-sm py-16 transition-colors border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-5xl mx-auto px-6 text-center relative">
-          <div className="absolute right-6 -top-10">
+          <div className="absolute right-6 -top-10 flex items-center gap-4">
+            <LanguageSwitcher />
             <ThemeToggle />
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">
-            Hi, Aku <span className="text-blue-600 dark:text-blue-400">Azhar Faturohman Ahidin</span>
+            {t('hero.title')} <span className="text-blue-600 dark:text-blue-400">Azhar Faturohman Ahidin</span>
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-            Seorang profesional yang berdedikasi tinggi. Di bawah ini adalah karya dan proyek yang pernah aku selesaikan. Fokus utamaku mencakup Cybersecurity, Backend Development, dan System Architecture.
+            {t('hero.description')}
           </p>
-          <a
-            href="/cv-azhar.pdf"
-            download
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-          >
-            <Download size={20} />
-            Download CV
-          </a>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="/cv-azhar.pdf"
+              download
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+            >
+              <Download size={20} />
+              {t('hero.download_cv')}
+            </a>
+            <a
+              href="https://github.com/azharf99"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-white px-6 py-3 rounded-lg font-medium transition-colors"
+            >
+              <Github size={20} />
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/azharfa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#0077b5] hover:bg-[#00669c] text-white px-6 py-3 rounded-lg font-medium transition-colors"
+            >
+              <Linkedin size={20} />
+              LinkedIn
+            </a>
+          </div>
         </div>
       </header>
 
@@ -125,7 +149,7 @@ export default function LandingPage() {
             <input
               type="text"
               disabled={loading}
-              placeholder="Cari portofolio..."
+              placeholder={t('search.placeholder')}
               className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-colors disabled:opacity-50"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -138,7 +162,7 @@ export default function LandingPage() {
               value={industry}
               onChange={(e) => { setIndustry(e.target.value); setPage(1); }}
             >
-              <option value="">Semua Industri</option>
+              <option value="">{t('search.all_industries')}</option>
               <option value="Cybersecurity">Cybersecurity</option>
               <option value="Web Development">Web Development</option>
               <option value="Fintech">Fintech</option>
@@ -152,7 +176,7 @@ export default function LandingPage() {
                 setPage(1);
               }}
             >
-              <option value="">Semua Tipe</option>
+              <option value="">{t('search.all_types')}</option>
               <option value="Web App">Web App</option>
               <option value="Mobile App">Mobile App</option>
               <option value="API Service">API Service</option>
@@ -170,7 +194,7 @@ export default function LandingPage() {
             <div className="col-span-full text-center py-10 text-red-600 dark:text-red-400">{error}</div>
           ) : portfolios.length === 0 ? (
             <div className="col-span-full text-center py-10 text-gray-500 dark:text-gray-400">
-              Belum ada data portofolio yang sesuai.
+              {t('portfolio.empty')}
             </div>
           ) : (
             portfolios.map((item) => (
@@ -202,7 +226,7 @@ export default function LandingPage() {
                       {item.role}
                     </span>
                     <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-semibold text-sm">
-                      Detail <ExternalLink size={14} />
+                      {t('portfolio.detail')} <ExternalLink size={14} />
                     </div>
                   </div>
                 </div>
@@ -273,7 +297,7 @@ export default function LandingPage() {
                   {/* Bagian Informasi */}
                   <div className="flex flex-col">
                     <div className="mb-6">
-                      <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Deskripsi Proyek</h4>
+                      <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">{t('portfolio.project_description')}</h4>
                       <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
                         {selectedPortfolio.description}
                       </p>
@@ -281,20 +305,20 @@ export default function LandingPage() {
 
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       <div>
-                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Role</h4>
+                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">{t('portfolio.role')}</h4>
                         <p className="text-gray-900 dark:text-gray-200 font-medium">{selectedPortfolio.role}</p>
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Industry</h4>
+                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">{t('portfolio.industry')}</h4>
                         <p className="text-gray-900 dark:text-gray-200 font-medium">{selectedPortfolio.industry}</p>
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Type</h4>
+                        <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">{t('portfolio.type')}</h4>
                         <p className="text-gray-900 dark:text-gray-200 font-medium">{selectedPortfolio.type}</p>
                       </div>
                       {selectedPortfolio.tech_stack && (
                         <div>
-                          <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Tech Stack</h4>
+                          <h4 className="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">{t('portfolio.tech_stack')}</h4>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {selectedPortfolio.tech_stack.split(',').map((tech, i) => (
                               <span key={i} className="text-[10px] bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md font-semibold">
@@ -314,7 +338,7 @@ export default function LandingPage() {
                           rel="noopener noreferrer"
                           className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-blue-200"
                         >
-                          Visit Project <ExternalLink size={18} />
+                          {t('portfolio.visit_project')} <ExternalLink size={18} />
                         </a>
                       </div>
                     )}
@@ -333,15 +357,15 @@ export default function LandingPage() {
               onClick={() => setPage(page - 1)}
               className="px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 rounded-lg disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm"
             >
-              Sebelumnya
+              {t('pagination.previous')}
             </button>
-            <span className="text-gray-600 dark:text-gray-400 font-medium">Halaman {page} dari {totalPages}</span>
+            <span className="text-gray-600 dark:text-gray-400 font-medium">{t('pagination.page_info', { page, total: totalPages })}</span>
             <button
               disabled={page === totalPages || loading}
               onClick={() => setPage(page + 1)}
               className="px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 rounded-lg disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors shadow-sm"
             >
-              Selanjutnya
+              {t('pagination.next')}
             </button>
           </div>
         )}

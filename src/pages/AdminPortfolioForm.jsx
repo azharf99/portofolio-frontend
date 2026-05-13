@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
 
@@ -29,6 +30,7 @@ function isValidUrl(url) {
 }
 
 export default function AdminPortfolioForm() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams();
   const { state } = useLocation();
@@ -70,29 +72,29 @@ export default function AdminPortfolioForm() {
   const [saving, setSaving] = useState(false);
 
   const pageTitle = useMemo(
-    () => (isEdit ? 'Edit Portfolio | Admin' : 'Tambah Portfolio | Admin'),
-    [isEdit]
+    () => (isEdit ? `${t('form.edit_title')} | Admin` : `${t('form.add_title')} | Admin`),
+    [isEdit, t]
   );
 
   const validateForm = () => {
     const requiredFields = ['title', 'description', 'role', 'type', 'industry'];
     for (const field of requiredFields) {
       if (!String(formData[field] || '').trim()) {
-        return 'Field wajib belum lengkap.';
+        return t('form.error_required');
       }
     }
 
-    if (!isValidUrl(formData.project_link)) return 'Project link harus URL valid.';
+    if (!isValidUrl(formData.project_link)) return t('form.error_invalid_url');
 
     // Main Image wajib saat Create jika tidak ada image_url
     if (!isEdit && !mainImage) {
-      return 'Gambar utama wajib diunggah untuk portfolio baru.';
+      return t('form.error_image_required');
     }
 
     if (formData.start_date && formData.end_date) {
       const start = new Date(formData.start_date);
       const end = new Date(formData.end_date);
-      if (end < start) return 'Tanggal selesai tidak boleh lebih kecil dari tanggal mulai.';
+      if (end < start) return t('form.error_date_range');
     }
 
     return '';
@@ -138,10 +140,10 @@ export default function AdminPortfolioForm() {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
       }
-      setSuccess('Data berhasil disimpan.');
+      setSuccess(t('form.success_save'));
       setTimeout(() => navigate('/admin/portfolios'), 700);
     } catch (err) {
-      setError(err.message || 'Gagal menyimpan data.');
+      setError(err.message || t('form.error_save'));
     } finally {
       setSaving(false);
     }
@@ -172,13 +174,13 @@ export default function AdminPortfolioForm() {
 
       <main className="max-w-4xl mx-auto pt-10 px-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{isEdit ? 'Edit Portfolio' : 'Tambah Portfolio'}</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{isEdit ? t('form.edit_title') : t('form.add_title')}</h1>
           <ThemeToggle />
         </div>
 
         {isEdit && !editingPortfolio && (
           <div className="mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-700">
-            Data awal edit tidak ditemukan. Silakan kembali ke list dan pilih data yang ingin diedit.
+            {t('form.error_not_found')}
           </div>
         )}
         {error && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
@@ -186,35 +188,35 @@ export default function AdminPortfolioForm() {
 
         <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 grid grid-cols-1 md:grid-cols-2 gap-6 transition-colors">
           <div className="flex flex-col gap-1">
-            <label htmlFor="title" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Judul Project</label>
-            <input id="title" required name="title" value={formData.title} onChange={handleChange} placeholder="Judul project" className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="title" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_title')}</label>
+            <input id="title" required name="title" value={formData.title} onChange={handleChange} placeholder={t('form.placeholder_title')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="role" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Role</label>
-            <input id="role" required name="role" value={formData.role} onChange={handleChange} placeholder="Role" className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="role" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_role')}</label>
+            <input id="role" required name="role" value={formData.role} onChange={handleChange} placeholder={t('form.placeholder_role')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="industry" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Industry</label>
-            <input id="industry" required name="industry" value={formData.industry} onChange={handleChange} placeholder="Industry" className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="industry" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_industry')}</label>
+            <input id="industry" required name="industry" value={formData.industry} onChange={handleChange} placeholder={t('form.placeholder_industry')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="type" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Type</label>
-            <input id="type" required name="type" value={formData.type} onChange={handleChange} placeholder="Type" className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="type" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_type')}</label>
+            <input id="type" required name="type" value={formData.type} onChange={handleChange} placeholder={t('form.placeholder_type')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
           </div>
           <div className="flex flex-col gap-1 md:col-span-2">
-            <label htmlFor="tech_stack" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Tech Stack (Pisahkan dengan koma)</label>
-            <input id="tech_stack" name="tech_stack" value={formData.tech_stack} onChange={handleChange} placeholder="Contoh: React, Node.js, Tailwind" className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="tech_stack" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_tech_stack')}</label>
+            <input id="tech_stack" name="tech_stack" value={formData.tech_stack} onChange={handleChange} placeholder={t('form.placeholder_tech_stack')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
           </div>
           <div className="flex flex-col gap-1 md:col-span-2">
-            <label htmlFor="description" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Deskripsi</label>
-            <textarea id="description" required name="description" value={formData.description} onChange={handleChange} placeholder="Jelaskan detail proyek ini..." rows={4} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="description" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_description')}</label>
+            <textarea id="description" required name="description" value={formData.description} onChange={handleChange} placeholder={t('form.placeholder_description')} rows={4} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="project_link" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Project URL</label>
+            <label htmlFor="project_link" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_project_url')}</label>
             <input id="project_link" name="project_link" value={formData.project_link} onChange={handleChange} placeholder="https://..." className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Gambar Utama (Thumbnail)</label>
+            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_main_image')}</label>
             <div className="flex items-start gap-4">
               {(mainImage || formData.image_url) && (
                 <div className="w-20 h-20 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 shrink-0">
@@ -236,7 +238,7 @@ export default function AdminPortfolioForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Galeri Gambar (Multiple)</label>
+            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_gallery')}</label>
             <div className="flex flex-col gap-3">
               {/* Existing Gallery Preview */}
               {formData.images && formData.images.length > 0 && !galleryImages.length && (
@@ -262,21 +264,21 @@ export default function AdminPortfolioForm() {
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="start_date" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Tanggal Mulai</label>
+            <label htmlFor="start_date" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_start_date')}</label>
             <input id="start_date" type="date" name="start_date" value={formData.start_date} onChange={handleChange} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white outline-none" />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="end_date" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">Tanggal Selesai</label>
+            <label htmlFor="end_date" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_end_date')}</label>
             <input id="end_date" type="date" name="end_date" value={formData.end_date} onChange={handleChange} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white outline-none" />
           </div>
           <label className="md:col-span-2 inline-flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer p-1">
             <input type="checkbox" name="is_published" checked={formData.is_published} onChange={handleChange} className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-            Tampilkan di halaman publik
+            {t('form.label_published')}
           </label>
           <div className="md:col-span-2 flex justify-end gap-3 pt-6 border-t border-gray-50 dark:border-gray-800">
-            <button type="button" onClick={() => navigate('/admin/portfolios')} className="px-6 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium transition-colors">Batal</button>
+            <button type="button" onClick={() => navigate('/admin/portfolios')} className="px-6 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium transition-colors">{t('form.button_cancel')}</button>
             <button type="submit" disabled={saving} className="px-8 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold disabled:opacity-70 transition-all shadow-lg shadow-blue-200 dark:shadow-none">
-              {saving ? 'Menyimpan...' : 'Simpan Portfolio'}
+              {saving ? t('form.button_saving') : t('form.button_save')}
             </button>
           </div>
         </form>

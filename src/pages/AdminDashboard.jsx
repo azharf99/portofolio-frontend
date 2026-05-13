@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import { LogOut, Plus, Edit, Trash2, UserCog } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { clearToken } from '../lib/auth';
 import { registerUnauthorizedHandler } from '../services/api';
 
 export default function AdminDashboard() {
+  const { t } = useTranslation();
   const [portfolios, setPortfolios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -21,7 +24,7 @@ export default function AdminDashboard() {
       const response = await api.get('/admin/portfolios?limit=100');
       setPortfolios(response.data.data || []);
     } catch (error) {
-      setError(error.message || 'Gagal mengambil data portfolio.');
+      setError(error.message || t('admin.fetch_error'));
     } finally {
       setLoading(false);
     }
@@ -38,13 +41,13 @@ export default function AdminDashboard() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Yakin ingin menghapus portofolio ini?')) {
+    if (window.confirm(t('admin.confirm_delete'))) {
       try {
         await api.delete(`/admin/portfolios/${id}`);
-        setMessage('Portfolio berhasil dihapus.');
+        setMessage(t('admin.delete_success'));
         fetchPortfolios();
       } catch (error) {
-        setError(error.message || 'Gagal menghapus data.');
+        setError(error.message || t('admin.delete_error'));
       }
     }
   };
@@ -56,35 +59,35 @@ export default function AdminDashboard() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       {/* Navbar Admin */}
-      {/* Navbar Admin */}
       <nav className="bg-white dark:bg-gray-900 shadow-sm px-6 py-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
-        <h1 className="text-xl font-bold text-gray-800 dark:text-white">Admin Dashboard</h1>
+        <h1 className="text-xl font-bold text-gray-800 dark:text-white">{t('admin.dashboard_title')}</h1>
         <div className="flex items-center gap-6">
+          <LanguageSwitcher />
           <ThemeToggle />
           <button onClick={() => navigate('/')} className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
-            Lihat Web Public
+            {t('admin.view_public')}
           </button>
           <button onClick={handleLogout} className="flex items-center gap-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 transition">
-            <LogOut size={16} /> Logout
+            <LogOut size={16} /> {t('admin.logout')}
           </button>
         </div>
       </nav>
 
       <main className="max-w-6xl mx-auto mt-8 px-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Kelola Portofolio</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('admin.manage_portfolio')}</h2>
           <div className="flex gap-2">
             <button
               onClick={() => navigate('/admin/users/1/edit')}
               className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center gap-2 text-sm font-medium transition"
             >
-              <UserCog size={18} /> Kelola User
+              <UserCog size={18} /> {t('admin.manage_user')}
             </button>
             <button
               onClick={() => navigate('/admin/portfolios/new')}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition shadow-lg shadow-blue-200 dark:shadow-none"
             >
-              <Plus size={18} /> Tambah Baru
+              <Plus size={18} /> {t('admin.add_new')}
             </button>
           </div>
         </div>
@@ -96,16 +99,16 @@ export default function AdminDashboard() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800 text-sm text-gray-600 dark:text-gray-400">
-                <th className="p-4 font-semibold">Judul</th>
-                <th className="p-4 font-semibold">Industri</th>
-                <th className="p-4 font-semibold">Tipe</th>
-                <th className="p-4 font-semibold text-center">Aksi</th>
+                <th className="p-4 font-semibold">{t('admin.table_title')}</th>
+                <th className="p-4 font-semibold">{t('admin.table_industry')}</th>
+                <th className="p-4 font-semibold">{t('admin.table_type')}</th>
+                <th className="p-4 font-semibold text-center">{t('admin.table_actions')}</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">Memuat data...</td>
+                  <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">{t('common.loading')}</td>
                 </tr>
               ) : portfolios.map((item) => (
                 <tr key={item.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
@@ -124,7 +127,7 @@ export default function AdminDashboard() {
               ))}
               {!loading && portfolios.length === 0 && (
                 <tr>
-                  <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">Belum ada portofolio. Silakan tambah baru.</td>
+                  <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">{t('admin.empty')}</td>
                 </tr>
               )}
             </tbody>

@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminPortfolioForm from './pages/AdminPortfolioForm';
+import AdminServiceForm from './pages/AdminServiceForm';
 import AdminUserEdit from './pages/AdminUserEdit';
 
 export default function App() {
@@ -51,6 +52,22 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <AdminPortfolioForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/services/new"
+            element={
+              <ProtectedRoute>
+                <AdminServiceForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/services/:id/edit"
+            element={
+              <ProtectedRoute>
+                <AdminServiceForm />
               </ProtectedRoute>
             }
           />

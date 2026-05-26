@@ -24,6 +24,17 @@
     "next": "Next",
     "page_info": "Page {{page}} of {{total}}"
   },
+  "services": {
+    "title": "My Services",
+    "subtitle": "Modern, premium solutions designed to help your business grow.",
+    "original_price": "Original Price",
+    "promo_price": "Promo Price",
+    "order_now": "Order Now",
+    "see_more": "See More Services",
+    "empty": "No services available.",
+    "all_products": "All Products & Services",
+    "title_nav": "Services"
+  },
   "login": {
     "title": "Admin Login",
     "subtitle": "Sign in to manage your portfolio",

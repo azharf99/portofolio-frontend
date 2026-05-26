@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
@@ -17,7 +17,7 @@ export default function AdminDashboard() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const fetchPortfolios = async () => {
+  const fetchPortfolios = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -28,12 +28,12 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [t]);
 
   useEffect(() => {
     registerUnauthorizedHandler(() => navigate('/admin/login', { replace: true }));
     fetchPortfolios();
-  }, [navigate]);
+  }, [navigate, fetchPortfolios]);
 
   const handleLogout = () => {
     clearToken();

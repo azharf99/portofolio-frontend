@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import ServicesSection from '../components/ServicesSection';
 import { useTranslation } from 'react-i18next';
 import { Search, Download, Briefcase, ExternalLink, X } from 'lucide-react';
+
 
 const Github = ({ size = 24, ...props }) => (
   <svg
@@ -47,7 +49,7 @@ import { Helmet } from 'react-helmet-async';
 const DEFAULT_LIMIT = 6;
 
 export default function LandingPage() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [portfolios, setPortfolios] = useState([]);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -88,7 +90,7 @@ export default function LandingPage() {
     } finally {
       setLoading(false);
     }
-  }, [debouncedSearch, industry, limit, page, type, i18n.language, t]);
+  }, [debouncedSearch, industry, limit, page, type, t]);
 
   const handleImageError = (e) => {
     const target = e.target;
@@ -176,6 +178,9 @@ export default function LandingPage() {
           </div>
         </div>
       </header>
+
+      {/* SERVICES SECTION */}
+      <ServicesSection limit={6} showSeeMore={true} />
 
       {/* MAIN CONTENT (FILTER & LIST) */}
       <main className="max-w-6xl mx-auto px-6 py-12">

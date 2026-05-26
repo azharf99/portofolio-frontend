@@ -24,6 +24,17 @@
     "next": "Selanjutnya",
     "page_info": "Halaman {{page}} dari {{total}}"
   },
+  "services": {
+    "title": "Layanan Saya",
+    "subtitle": "Solusi modern dan premium yang dirancang untuk membantu bisnis Anda tumbuh.",
+    "original_price": "Harga Asli",
+    "promo_price": "Harga Promo",
+    "order_now": "Pesan Sekarang",
+    "see_more": "Lihat Layanan Lainnya",
+    "empty": "Belum ada layanan yang tersedia.",
+    "all_products": "Semua Produk & Layanan",
+    "title_nav": "Layanan"
+  },
   "login": {
     "title": "Admin Login",
     "subtitle": "Masuk untuk mengelola portofoliomu",

@@ -148,7 +148,7 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
 
                   {/* Button */}
                   <a
-                    href={service.redirect_url || `https://wa.me/6285702570200?text=Hello%2C%20I%20am%20interested%20in%20your%20${encodeURIComponent(service.title)}%20service`}
+                    href={service.redirect_url || `https://wa.me/6285701570100?text=Hello%2C%20I%20am%20interested%20in%20your%20${encodeURIComponent(service.title)}%20service`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.98] transition-all duration-300"

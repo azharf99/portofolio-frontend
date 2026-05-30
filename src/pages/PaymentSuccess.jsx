@@ -51,39 +51,39 @@ export default function PaymentSuccess() {
       case 'success':
       case 'capture':
         return (
-          <span className="inline-flex items-center gap-1 bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400 px-2.5 py-1 rounded-full text-xs font-bold border border-green-150 dark:border-green-900/30">
+          <span className="inline-flex items-center gap-1 bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400 px-2.5 py-1 rounded-full text-xs font-bold border border-green-200 dark:border-green-900/30">
             <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
             {t('payment_success.status_settlement')}
           </span>
         );
       case 'pending':
         return (
-          <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 px-2.5 py-1 rounded-full text-xs font-bold border border-amber-150 dark:border-amber-900/30">
+          <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400 px-2.5 py-1 rounded-full text-xs font-bold border border-amber-200 dark:border-amber-900/30">
             <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
             {t('payment_success.status_pending')}
           </span>
         );
       case 'expire':
         return (
-          <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400 px-2.5 py-1 rounded-full text-xs font-bold border border-gray-250 dark:border-gray-750/30">
+          <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400 px-2.5 py-1 rounded-full text-xs font-bold border border-gray-300 dark:border-gray-700/30">
             {t('payment_success.status_expire')}
           </span>
         );
       case 'cancel':
         return (
-          <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400 px-2.5 py-1 rounded-full text-xs font-bold border border-red-150 dark:border-red-900/30">
+          <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400 px-2.5 py-1 rounded-full text-xs font-bold border border-red-200 dark:border-red-900/30">
             {t('payment_success.status_cancel')}
           </span>
         );
       case 'deny':
         return (
-          <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400 px-2.5 py-1 rounded-full text-xs font-bold border border-red-150 dark:border-red-900/30">
+          <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400 px-2.5 py-1 rounded-full text-xs font-bold border border-red-200 dark:border-red-900/30">
             {t('payment_success.status_deny')}
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 bg-red-55 text-red-700 dark:bg-red-900/30 dark:text-red-450 px-2.5 py-1 rounded-full text-xs font-bold border border-red-200">
+          <span className="inline-flex items-center gap-1 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 px-2.5 py-1 rounded-full text-xs font-bold border border-red-200">
             {t('payment_success.status_failure')}
           </span>
         );
@@ -194,7 +194,7 @@ export default function PaymentSuccess() {
           {searched && (
             <div>
               {history.length === 0 ? (
-                <div className="text-center py-10 text-gray-500 dark:text-gray-400 border border-dashed border-gray-200 dark:border-gray-850 rounded-2xl">
+                <div className="text-center py-10 text-gray-500 dark:text-gray-400 border border-dashed border-gray-200 dark:border-gray-800 rounded-2xl">
                   {t('payment_success.empty')}
                 </div>
               ) : (
@@ -206,7 +206,7 @@ export default function PaymentSuccess() {
                     >
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono font-bold text-gray-450 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">
+                          <span className="text-xs font-mono font-bold text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded">
                             {tx.order_id}
                           </span>
                           {getStatusBadge(tx.transaction_status)}

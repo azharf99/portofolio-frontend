@@ -89,7 +89,7 @@ export default function CheckoutModal({ isOpen, onClose, service }) {
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto flex-grow">
           {/* Service Summary Card */}
-          <div className="bg-gray-50 dark:bg-gray-850/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-800/80 mb-6">
+          <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 border border-gray-100 dark:border-gray-800/80 mb-6">
             <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
               {t('portfolio.type')}
             </span>
@@ -122,7 +122,7 @@ export default function CheckoutModal({ isOpen, onClose, service }) {
           {/* Checkout Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-750 dark:text-gray-300 mb-1.5">
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                 {t('checkout.name')} <span className="text-red-500">*</span>
               </label>
               <input
@@ -132,13 +132,13 @@ export default function CheckoutModal({ isOpen, onClose, service }) {
                 onChange={(e) => setName(e.target.value)}
                 required
                 disabled={loading}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-55/30 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-550"
+                className="w-full px-4 py-3 rounded-2xl bg-gray-100/30 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
                 placeholder="John Doe"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-750 dark:text-gray-300 mb-1.5">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                 {t('checkout.email')} <span className="text-red-500">*</span>
               </label>
               <input
@@ -148,13 +148,13 @@ export default function CheckoutModal({ isOpen, onClose, service }) {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-55/30 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-550"
+                className="w-full px-4 py-3 rounded-2xl bg-gray-100/30 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
                 placeholder="john@example.com"
               />
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-gray-750 dark:text-gray-300 mb-1.5">
+              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                 {t('checkout.phone')}
               </label>
               <input
@@ -163,7 +163,7 @@ export default function CheckoutModal({ isOpen, onClose, service }) {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 disabled={loading}
-                className="w-full px-4 py-3 rounded-2xl bg-gray-55/30 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-550"
+                className="w-full px-4 py-3 rounded-2xl bg-gray-100/30 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/25 focus:border-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
                 placeholder="081234567890"
               />
             </div>

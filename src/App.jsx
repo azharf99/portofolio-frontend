@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import LandingPage from './pages/LandingPage';
 import ServicesPage from './pages/ServicesPage';
+import PaymentSuccess from './pages/PaymentSuccess';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -29,6 +30,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/admin/login" element={<Login />} />
           <Route path="/login" element={<Navigate to="/admin/login" replace />} />
           <Route

@@ -129,5 +129,37 @@
     "confirm_delete": "Yakin ingin menghapus user ini?",
     "success_delete": "User berhasil dihapus.",
     "error_delete": "Gagal menghapus user."
+  },
+  "checkout": {
+    "title": "Formulir Pemesanan",
+    "subtitle": "Silakan isi detail Anda untuk melanjutkan ke pembayaran Midtrans",
+    "name": "Nama Lengkap",
+    "email": "Alamat Email",
+    "phone": "Nomor WhatsApp (Opsional)",
+    "submit": "Lanjutkan ke Pembayaran",
+    "submitting": "Memproses...",
+    "cancel": "Batal",
+    "error_required": "Nama lengkap dan email wajib diisi."
+  },
+  "payment_success": {
+    "title": "Pembayaran Diproses / Berhasil",
+    "subtitle": "Terima kasih atas pembelian Anda! Transaksi Anda sedang diverifikasi secara otomatis.",
+    "back_home": "Kembali ke Beranda",
+    "track_history": "Lacak Riwayat Pembelian",
+    "track_subtitle": "Masukkan email yang Anda gunakan saat membeli untuk melacak transaksi Anda.",
+    "email_placeholder": "nama@email.com",
+    "btn_check": "Cek Riwayat",
+    "empty": "Belum ada riwayat transaksi untuk email ini.",
+    "table_order_id": "Order ID",
+    "table_service": "Layanan",
+    "table_amount": "Total",
+    "table_status": "Status",
+    "table_date": "Tanggal",
+    "status_pending": "Menunggu Pembayaran",
+    "status_settlement": "Sukses",
+    "status_expire": "Kedaluwarsa",
+    "status_cancel": "Dibatalkan",
+    "status_deny": "Ditolak",
+    "status_failure": "Gagal"
   }
 }

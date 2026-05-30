@@ -129,5 +129,37 @@
     "confirm_delete": "Are you sure you want to delete this user?",
     "success_delete": "User deleted successfully.",
     "error_delete": "Failed to delete user."
+  },
+  "checkout": {
+    "title": "Order Form",
+    "subtitle": "Please fill in your details to proceed to Midtrans payment",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "WhatsApp Number (Optional)",
+    "submit": "Proceed to Payment",
+    "submitting": "Processing...",
+    "cancel": "Cancel",
+    "error_required": "Full name and email are required."
+  },
+  "payment_success": {
+    "title": "Payment Processing / Successful",
+    "subtitle": "Thank you for your purchase! Your transaction is being verified automatically.",
+    "back_home": "Back to Home",
+    "track_history": "Track Purchase History",
+    "track_subtitle": "Enter the email you used when buying to track your transactions.",
+    "email_placeholder": "name@email.com",
+    "btn_check": "Check History",
+    "empty": "No transaction history found for this email.",
+    "table_order_id": "Order ID",
+    "table_service": "Service",
+    "table_amount": "Total",
+    "table_status": "Status",
+    "table_date": "Date",
+    "status_pending": "Pending Payment",
+    "status_settlement": "Success",
+    "status_expire": "Expired",
+    "status_cancel": "Cancelled",
+    "status_deny": "Denied",
+    "status_failure": "Failed"
   }
 }

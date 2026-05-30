@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
+import CheckoutModal from './CheckoutModal';
 import { ShoppingBag, ArrowRight, Tag, Percent } from 'lucide-react';
 
 export default function ServicesSection({ limit = 6, showSeeMore = true }) {
@@ -10,6 +11,8 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedService, setSelectedService] = useState(null);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -41,6 +44,11 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
   const getPriceDiscountPercentage = (original, promo) => {
     if (!original || !promo || original <= promo) return 0;
     return Math.round(((original - promo) / original) * 100);
+  };
+
+  const handleOrderClick = (service) => {
+    setSelectedService(service);
+    setIsCheckoutOpen(true);
   };
 
   if (loading) {
@@ -147,15 +155,13 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
                   </div>
 
                   {/* Button */}
-                  <a
-                    href={service.redirect_url || `https://wa.me/6285701570100?text=Hello%2C%20I%20am%20interested%20in%20your%20${encodeURIComponent(service.title)}%20service`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.98] transition-all duration-300"
+                  <button
+                    onClick={() => handleOrderClick(service)}
+                    className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-2xl shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.98] transition-all duration-300 cursor-pointer"
                   >
                     <span>{t('services.order_now')}</span>
                     <ArrowRight size={16} />
-                  </a>
+                  </button>
                 </div>
               </div>
             );
@@ -174,6 +180,12 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
           </div>
         )}
       </div>
+
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        service={selectedService}
+      />
     </section>
   );
 }

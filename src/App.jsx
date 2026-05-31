@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import LandingPage from './pages/LandingPage';
 import ServicesPage from './pages/ServicesPage';
-import PaymentSuccess from './pages/PaymentSuccess';
+import PaymentStatus from './pages/PaymentStatus';
 import Login from './pages/Login';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -30,7 +30,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-success" element={<PaymentStatus type="success" />} />
+          <Route path="/payment-pending" element={<PaymentStatus type="pending" />} />
+          <Route path="/payment-failed" element={<PaymentStatus type="failed" />} />
           <Route path="/admin/login" element={<Login />} />
           <Route path="/login" element={<Navigate to="/admin/login" replace />} />
           <Route

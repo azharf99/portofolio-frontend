@@ -161,5 +161,11 @@
     "status_cancel": "Dibatalkan",
     "status_deny": "Ditolak",
     "status_failure": "Gagal"
+  },
+  "payment_status": {
+    "failed_title": "Pembayaran Gagal",
+    "failed_subtitle": "Maaf, transaksi Anda gagal atau dibatalkan. Silakan coba lagi atau hubungi kami.",
+    "pending_title": "Menunggu Pembayaran",
+    "pending_subtitle": "Transaksi Anda sedang menunggu pembayaran. Silakan selesaikan pembayaran Anda."
   }
 }

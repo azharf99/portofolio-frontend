@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import { CheckCircle, ArrowLeft, Search, Calendar, CreditCard, Tag, Clock } from 'lucide-react';
+import { CheckCircle, XCircle, Clock as ClockIcon, ArrowLeft, Search, Calendar, CreditCard, Tag } from 'lucide-react';
 import api from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
-export default function PaymentSuccess() {
+export default function PaymentStatus({ type = 'success' }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -105,10 +105,39 @@ export default function PaymentSuccess() {
     }
   };
 
+  const getPageConfig = () => {
+    switch (type) {
+      case 'failed':
+        return {
+          title: t('payment_status.failed_title', 'Pembayaran Gagal'),
+          subtitle: t('payment_status.failed_subtitle', 'Maaf, transaksi Anda gagal atau dibatalkan. Silakan coba lagi atau hubungi kami.'),
+          icon: <XCircle size={48} />,
+          colorClass: 'bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400',
+        };
+      case 'pending':
+        return {
+          title: t('payment_status.pending_title', 'Menunggu Pembayaran'),
+          subtitle: t('payment_status.pending_subtitle', 'Transaksi Anda sedang menunggu pembayaran. Silakan selesaikan pembayaran Anda.'),
+          icon: <ClockIcon size={48} />,
+          colorClass: 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400',
+        };
+      case 'success':
+      default:
+        return {
+          title: t('payment_success.title'),
+          subtitle: t('payment_success.subtitle'),
+          icon: <CheckCircle size={48} />,
+          colorClass: 'bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400',
+        };
+    }
+  };
+
+  const config = getPageConfig();
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans transition-colors duration-300 flex flex-col">
       <Helmet>
-        <title>{t('payment_success.title')} | Azhar Faturohman Ahidin</title>
+        <title>{config.title} | Azhar Faturohman Ahidin</title>
       </Helmet>
 
       {/* HEADER / NAVIGATION */}
@@ -131,16 +160,16 @@ export default function PaymentSuccess() {
 
       {/* MAIN CONTENT */}
       <main className="max-w-4xl mx-auto px-6 py-12 flex-grow w-full">
-        {/* Success Alert Box */}
+        {/* Status Alert Box */}
         <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 text-center mb-12 flex flex-col items-center">
-          <div className="p-3 bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400 rounded-full mb-6 animate-bounce">
-            <CheckCircle size={48} />
+          <div className={`p-3 rounded-full mb-6 ${type === 'success' ? 'animate-bounce' : 'animate-pulse'} ${config.colorClass}`}>
+            {config.icon}
           </div>
           <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-3">
-            {t('payment_success.title')}
+            {config.title}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 max-w-xl mb-8 leading-relaxed">
-            {t('payment_success.subtitle')}
+            {config.subtitle}
           </p>
           <button
             onClick={() => navigate('/services')}
@@ -154,7 +183,7 @@ export default function PaymentSuccess() {
         <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-sm border border-gray-100 dark:border-gray-800">
           <div className="mb-6">
             <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight flex items-center gap-2">
-              <Clock className="text-blue-600 dark:text-blue-400" size={24} />
+              <ClockIcon className="text-blue-600 dark:text-blue-400" size={24} />
               {t('payment_success.track_history')}
             </h2>
             <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">

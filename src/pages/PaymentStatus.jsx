@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { CheckCircle, XCircle, Clock as ClockIcon, ArrowLeft, Search, Calendar, CreditCard, Tag } from 'lucide-react';
 import api from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
+import { sanitizeUrl } from '../lib/sanitizeUrl';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function PaymentStatus({ type = 'success' }) {
@@ -268,8 +269,9 @@ export default function PaymentStatus({ type = 'success' }) {
                         </div>
                         
                         {tx.transaction_status === 'pending' && tx.payment_url && (
+                          // SECURITY: Sanitize external payment URL to prevent XSS via javascript: URIs
                           <a
-                            href={tx.payment_url}
+                            href={sanitizeUrl(tx.payment_url)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs py-2 px-4 rounded-xl active:scale-[0.98] transition-all inline-flex items-center gap-1 shadow-sm shadow-blue-500/10"

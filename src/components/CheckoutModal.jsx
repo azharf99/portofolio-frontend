@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Sparkles, AlertCircle } from 'lucide-react';
 import api from '../services/api';
+import { sanitizeUrl } from '../lib/sanitizeUrl';
 
 export default function CheckoutModal({ isOpen, onClose, service }) {
   const { t } = useTranslation();
@@ -43,7 +44,8 @@ export default function CheckoutModal({ isOpen, onClose, service }) {
 
       const paymentUrl = response.data?.data?.payment_url;
       if (paymentUrl) {
-        window.location.href = paymentUrl;
+        // SECURITY: Sanitize external payment URL to prevent XSS via javascript: URIs
+        window.location.href = sanitizeUrl(paymentUrl);
       } else {
         throw new Error('No payment URL returned from the server.');
       }

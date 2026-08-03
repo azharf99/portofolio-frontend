@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
 import { CheckCircle, XCircle, Clock as ClockIcon, ArrowLeft, Search, Calendar, CreditCard, Tag } from 'lucide-react';
 import api from '../services/api';
+import { sanitizeUrl } from '../lib/sanitizeUrl';
 import ThemeToggle from '../components/ThemeToggle';
+import { sanitizeUrl } from '../lib/sanitizeUrl';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { sanitizeUrl } from '../lib/sanitizeUrl';
 
@@ -269,6 +271,7 @@ export default function PaymentStatus({ type = 'success' }) {
                         </div>
                         
                         {tx.transaction_status === 'pending' && tx.payment_url && (
+                          // SECURITY: Sanitize external payment URL to prevent XSS via javascript: URIs
                           <a
                             href={sanitizeUrl(tx.payment_url)}
                             target="_blank"

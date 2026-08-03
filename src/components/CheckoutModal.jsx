@@ -44,11 +44,8 @@ export default function CheckoutModal({ isOpen, onClose, service }) {
 
       const paymentUrl = response.data?.data?.payment_url;
       if (paymentUrl) {
-        const safeUrl = sanitizeUrl(paymentUrl);
-        if (safeUrl === '#') {
-          throw new Error('Invalid payment URL returned from the server.');
-        }
-        window.location.href = safeUrl;
+        // Sanitize the URL to prevent XSS/open redirects
+        window.location.href = sanitizeUrl(paymentUrl);
       } else {
         throw new Error('No payment URL returned from the server.');
       }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { Lock, User } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { setToken } from '../lib/auth';
+import { markLoggedIn } from '../lib/auth';
 import { useTranslation } from 'react-i18next';
 
 export default function Login() {
@@ -25,8 +25,9 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await api.post('/login', { username, password });
-      setToken(response.data.token);
+      // Token dikirim balik sebagai cookie httpOnly oleh backend, bukan di response body.
+      await api.post('/login', { username, password });
+      markLoggedIn();
       navigate('/admin/portfolios', { replace: true });
     } catch (err) {
       setError(err.message || t('login.error_failed'));

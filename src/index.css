@@ -2,3 +2,77 @@
 
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* ---- Self-hosted brand type (Latin subset only — see public/fonts/LICENSE.txt) ---- */
+@font-face {
+  font-family: 'Shippori Mincho';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/shippori-mincho-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Shippori Mincho';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/shippori-mincho-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Zen Kaku Gothic New';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/zen-kaku-gothic-new-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Zen Kaku Gothic New';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/zen-kaku-gothic-new-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Zen Kaku Gothic New';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/zen-kaku-gothic-new-700.woff2') format('woff2');
+}
+
+/*
+  Design tokens — Japanese-minimalism direction (see design pitch).
+  Named after the materials they reference: sumi (ink), kinari (undyed silk
+  paper), ai (aizome indigo — the one accent), nibi (warm ash grey).
+  Tailwind v4 is CSS-first: tokens declared in @theme below generate real
+  utilities (bg-sumi, dark:text-paperInk, font-display, etc.) automatically.
+  A plain tailwind.config.js theme.extend does NOT get picked up unless
+  explicitly imported via @config — @theme is the source of truth here.
+*/
+@theme {
+  /* Suffixes are camelCase on purpose so the generated utilities (bg-aiLight,
+     text-paperInk, ...) match what the components already use — Tailwind v4
+     takes whatever follows --color- verbatim as the utility name. */
+  --color-sumi: #1b1a17;
+  --color-kinari: #f1ece0;
+  --color-kinari2: #e8e1d2;
+  --color-ai: #2f4373;
+  --color-aiStrong: #24345c;
+  --color-aiLight: #93a6d9;
+  --color-nibi: #8d8574;
+  --color-nibiDark: #9a927f;
+  --color-aisumi: #14141b;
+  --color-aisumi2: #1b1c25;
+  --color-paperInk: #ece7da;
+
+  --font-display: 'Shippori Mincho', 'Noto Serif JP', serif;
+  --font-body: 'Zen Kaku Gothic New', 'Hiragino Sans', system-ui, sans-serif;
+}
+
+body {
+  font-family: 'Zen Kaku Gothic New', 'Hiragino Sans', system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+}

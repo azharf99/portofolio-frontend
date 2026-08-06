@@ -1,0 +1,7 @@
+Shippori Mincho and Zen Kaku Gothic New
+Copyright respective foundries, licensed under the SIL Open Font License, version 1.1.
+Full license text: https://openfontlicense.org
+
+Files in this directory are Latin-subset woff2 builds served from Google Fonts
+(https://fonts.google.com), self-hosted here to avoid a third-party request and
+keep font loading inside this app's Content-Security-Policy.

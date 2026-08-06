@@ -8,6 +8,7 @@ import ThemeToggle from '../components/ThemeToggle';
 const emptyForm = {
   title: '',
   description: '',
+  features: '',
   original_price: 0,
   promo_price: 0,
   redirect_url: '',
@@ -65,6 +66,7 @@ export default function AdminServiceForm() {
     const data = new FormData();
     data.append('title', formData.title);
     data.append('description', formData.description);
+    data.append('features', formData.features || '');
     data.append('original_price', String(formData.original_price));
     data.append('promo_price', String(formData.promo_price));
     data.append('redirect_url', formData.redirect_url || '');
@@ -160,6 +162,22 @@ export default function AdminServiceForm() {
             />
           </div>
 
+          <div className="flex flex-col gap-1 md:col-span-2">
+            <label htmlFor="features" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
+              {t('form.label_features')}
+            </label>
+            <textarea
+              id="features"
+              name="features"
+              value={formData.features}
+              onChange={handleChange}
+              placeholder={t('form.placeholder_features')}
+              rows={2}
+              className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            />
+            <p className="text-xs text-gray-400 dark:text-gray-500 px-1">{t('form.hint_features')}</p>
+          </div>
+
           <div className="flex flex-col gap-1">
             <label htmlFor="original_price" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
               {t('form.label_original_price')}
@@ -188,6 +206,7 @@ export default function AdminServiceForm() {
               onChange={handleChange}
               className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
             />
+            <p className="text-xs text-gray-400 dark:text-gray-500 px-1">{t('form.hint_custom_quote')}</p>
           </div>
 
           <div className="flex flex-col gap-1 md:col-span-2">

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { clearToken, getToken } from '../lib/auth';
+import { clearLoggedIn } from '../lib/auth';
 import i18n from '../i18n';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
@@ -43,13 +43,13 @@ function normalizeError(error) {
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  // KEAMANAN: token auth dikirim lewat cookie httpOnly, bukan header Authorization yang
+  // di-set manual dari JS. withCredentials memastikan browser menyertakan cookie tsb
+  // pada setiap request (backend CORS sudah diset AllowCredentials: true untuk ini).
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
-  const token = getToken();
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
   config.headers['Accept-Language'] = i18n.language || 'id';
   return config;
 });
@@ -60,7 +60,7 @@ api.interceptors.response.use(
     const normalizedError = normalizeError(error);
 
     if (normalizedError.status === 401) {
-      clearToken();
+      clearLoggedIn();
       if (typeof unauthorizedHandler === 'function') {
         unauthorizedHandler(normalizedError);
       }

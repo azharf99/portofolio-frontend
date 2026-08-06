@@ -244,7 +244,7 @@ export default function PaymentStatus({ type = 'success' }) {
                           {getStatusBadge(tx.transaction_status)}
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                          {tx.service?.title || 'Unknown Service'}
+                          {tx.service_title || 'Unknown Service'}
                         </h3>
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-gray-500 dark:text-gray-400">
                           <span className="flex items-center gap-1">

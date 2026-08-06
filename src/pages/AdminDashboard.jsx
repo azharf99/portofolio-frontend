@@ -6,7 +6,7 @@ import ThemeToggle from '../components/ThemeToggle';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { LogOut, Plus, Edit, Trash2, UserCog } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { clearToken } from '../lib/auth';
+import { clearLoggedIn } from '../lib/auth';
 import { registerUnauthorizedHandler } from '../services/api';
 
 export default function AdminDashboard() {
@@ -58,9 +58,16 @@ export default function AdminDashboard() {
     }
   }, [navigate, activeTab, fetchPortfolios, fetchServices]);
 
-  const handleLogout = () => {
-    clearToken();
-    navigate('/admin/login', { replace: true });
+  const handleLogout = async () => {
+    try {
+      await api.post('/logout');
+    } catch {
+      // Tetap lanjut ke halaman login meski request logout gagal (mis. sudah expired) —
+      // yang penting flag UI lokal dan navigasi tetap bersih.
+    } finally {
+      clearLoggedIn();
+      navigate('/admin/login', { replace: true });
+    }
   };
 
   const handleDeletePortfolio = async (id) => {

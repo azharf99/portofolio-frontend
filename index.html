@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!--
+      KEAMANAN: Content-Security-Policy sebagai lapisan pertahanan terhadap XSS.
+      Hanya mengizinkan script/style dari domain sendiri + Google Tag Manager/Analytics
+      yang memang dipakai di halaman ini. 'unsafe-inline' untuk style dipakai karena
+      Tailwind + beberapa inline style masih ada; script inline GTM di bawah butuh
+      'unsafe-inline' juga kecuali dimigrasikan ke nonce/hash di kemudian hari.
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; frame-src https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9F2JSKZS9C"></script>
     <script>
       window.dataLayer = window.dataLayer || [];

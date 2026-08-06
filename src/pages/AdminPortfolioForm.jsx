@@ -29,6 +29,10 @@ function isValidUrl(url) {
   }
 }
 
+const inputClass = "p-2.5 border border-sumi/15 dark:border-paperInk/15 bg-white dark:bg-aisumi text-sumi dark:text-paperInk focus:outline-none focus:border-ai dark:focus:border-aiLight transition-colors";
+const labelClass = "text-sm font-semibold text-sumi dark:text-paperInk px-1";
+const fileInputClass = "w-full text-sm p-1.5 border border-sumi/15 dark:border-paperInk/15 bg-white dark:bg-aisumi text-nibi dark:text-nibiDark file:mr-4 file:py-1 file:px-4 file:border-0 file:text-xs file:font-semibold file:bg-kinari2 dark:file:bg-aisumi2 file:text-ai dark:file:text-aiLight hover:file:opacity-80";
+
 export default function AdminPortfolioForm() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -43,11 +47,11 @@ export default function AdminPortfolioForm() {
       target.dataset.retryCount = '0';
     }
     const count = parseInt(target.dataset.retryCount);
-    
+
     if (count < 5) {
       target.dataset.retryCount = (count + 1).toString();
       const delay = Math.pow(2, count) * 1000 + Math.random() * 1000;
-      
+
       setTimeout(() => {
         const currentSrc = target.src;
         target.src = '';
@@ -166,7 +170,7 @@ export default function AdminPortfolioForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans pb-12 transition-colors duration-300">
+    <div className="min-h-screen bg-kinari dark:bg-aisumi font-body pb-12 transition-colors duration-300">
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="robots" content="noindex, nofollow" />
@@ -174,77 +178,77 @@ export default function AdminPortfolioForm() {
 
       <main className="max-w-4xl mx-auto pt-10 px-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{isEdit ? t('form.edit_title') : t('form.add_title')}</h1>
+          <h1 className="font-display text-xl text-sumi dark:text-paperInk">{isEdit ? t('form.edit_title') : t('form.add_title')}</h1>
           <ThemeToggle />
         </div>
 
         {isEdit && !editingPortfolio && (
-          <div className="mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-700">
+          <div className="mb-4 border border-amber-200 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-900 p-3 text-sm text-amber-700 dark:text-amber-400">
             {t('form.error_not_found')}
           </div>
         )}
-        {error && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
-        {success && <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700">{success}</div>}
+        {error && <div className="mb-4 border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/20 p-3 text-sm text-red-700 dark:text-red-400">{error}</div>}
+        {success && <div className="mb-4 border border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950/20 p-3 text-sm text-green-700 dark:text-green-400">{success}</div>}
 
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 grid grid-cols-1 md:grid-cols-2 gap-6 transition-colors">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-aisumi2 border border-sumi/10 dark:border-paperInk/10 p-6 grid grid-cols-1 md:grid-cols-2 gap-6 transition-colors">
           <div className="flex flex-col gap-1">
-            <label htmlFor="title" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_title')}</label>
-            <input id="title" required name="title" value={formData.title} onChange={handleChange} placeholder={t('form.placeholder_title')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="title" className={labelClass}>{t('form.label_title')}</label>
+            <input id="title" required name="title" value={formData.title} onChange={handleChange} placeholder={t('form.placeholder_title')} className={inputClass} />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="role" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_role')}</label>
-            <input id="role" required name="role" value={formData.role} onChange={handleChange} placeholder={t('form.placeholder_role')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="role" className={labelClass}>{t('form.label_role')}</label>
+            <input id="role" required name="role" value={formData.role} onChange={handleChange} placeholder={t('form.placeholder_role')} className={inputClass} />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="industry" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_industry')}</label>
-            <input id="industry" required name="industry" value={formData.industry} onChange={handleChange} placeholder={t('form.placeholder_industry')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="industry" className={labelClass}>{t('form.label_industry')}</label>
+            <input id="industry" required name="industry" value={formData.industry} onChange={handleChange} placeholder={t('form.placeholder_industry')} className={inputClass} />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="type" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_type')}</label>
-            <input id="type" required name="type" value={formData.type} onChange={handleChange} placeholder={t('form.placeholder_type')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="type" className={labelClass}>{t('form.label_type')}</label>
+            <input id="type" required name="type" value={formData.type} onChange={handleChange} placeholder={t('form.placeholder_type')} className={inputClass} />
           </div>
           <div className="flex flex-col gap-1 md:col-span-2">
-            <label htmlFor="tech_stack" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_tech_stack')}</label>
-            <input id="tech_stack" name="tech_stack" value={formData.tech_stack} onChange={handleChange} placeholder={t('form.placeholder_tech_stack')} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="tech_stack" className={labelClass}>{t('form.label_tech_stack')}</label>
+            <input id="tech_stack" name="tech_stack" value={formData.tech_stack} onChange={handleChange} placeholder={t('form.placeholder_tech_stack')} className={inputClass} />
           </div>
           <div className="flex flex-col gap-1 md:col-span-2">
-            <label htmlFor="description" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_description')}</label>
-            <textarea id="description" required name="description" value={formData.description} onChange={handleChange} placeholder={t('form.placeholder_description')} rows={4} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="description" className={labelClass}>{t('form.label_description')}</label>
+            <textarea id="description" required name="description" value={formData.description} onChange={handleChange} placeholder={t('form.placeholder_description')} rows={4} className={inputClass} />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="project_link" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_project_url')}</label>
-            <input id="project_link" name="project_link" value={formData.project_link} onChange={handleChange} placeholder="https://..." className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" />
+            <label htmlFor="project_link" className={labelClass}>{t('form.label_project_url')}</label>
+            <input id="project_link" name="project_link" value={formData.project_link} onChange={handleChange} placeholder="https://..." className={inputClass} />
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_main_image')}</label>
+            <label className={labelClass}>{t('form.label_main_image')}</label>
             <div className="flex items-start gap-4">
               {(mainImage || formData.image_url) && (
-                <div className="w-20 h-20 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 shrink-0">
-                  <img 
-                    src={mainImage ? URL.createObjectURL(mainImage) : formData.image_url} 
-                    alt="Preview" 
+                <div className="w-20 h-20 overflow-hidden border border-sumi/15 dark:border-paperInk/15 bg-kinari2 dark:bg-aisumi shrink-0">
+                  <img
+                    src={mainImage ? URL.createObjectURL(mainImage) : formData.image_url}
+                    alt="Preview"
                     onError={!mainImage ? handleImageError : undefined}
-                    className="w-full h-full object-cover" 
+                    className="w-full h-full object-cover"
                   />
                 </div>
               )}
               <div className="flex-grow">
-                <input id="image" type="file" name="image" onChange={handleChange} accept="image/*" className="w-full text-sm p-1.5 border rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/50" />
+                <input id="image" type="file" name="image" onChange={handleChange} accept="image/*" className={fileInputClass} />
                 {formData.image_url && !mainImage && (
-                  <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1 px-1">Current: {formData.image_url}</p>
+                  <p className="text-[10px] text-nibi dark:text-nibiDark mt-1 px-1">Current: {formData.image_url}</p>
                 )}
               </div>
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_gallery')}</label>
+            <label className={labelClass}>{t('form.label_gallery')}</label>
             <div className="flex flex-col gap-3">
               {/* Existing Gallery Preview */}
               {formData.images && formData.images.length > 0 && !galleryImages.length && (
-                <div className="flex flex-wrap gap-2 p-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-dashed border-gray-200 dark:border-gray-700">
+                <div className="flex flex-wrap gap-2 p-2 bg-kinari2 dark:bg-aisumi border border-dashed border-sumi/15 dark:border-paperInk/15">
                   {formData.images.map((img) => (
-                    <div key={img.id} className="w-12 h-12 rounded-md overflow-hidden border border-gray-200">
+                    <div key={img.id} className="w-12 h-12 overflow-hidden border border-sumi/15 dark:border-paperInk/15">
                       <img src={img.image_url} alt="Gallery" onError={handleImageError} className="w-full h-full object-cover" title={img.image_url} />
                     </div>
                   ))}
@@ -252,32 +256,32 @@ export default function AdminPortfolioForm() {
               )}
               {/* New Uploads Preview */}
               {galleryImages.length > 0 && (
-                <div className="flex flex-wrap gap-2 p-2 bg-blue-50 rounded-lg border border-dashed border-blue-200">
+                <div className="flex flex-wrap gap-2 p-2 bg-ai/5 dark:bg-aiLight/10 border border-dashed border-ai/30 dark:border-aiLight/30">
                   {galleryImages.map((file, idx) => (
-                    <div key={idx} className="w-12 h-12 rounded-md overflow-hidden border border-blue-200">
+                    <div key={idx} className="w-12 h-12 overflow-hidden border border-ai/30 dark:border-aiLight/30">
                       <img src={URL.createObjectURL(file)} alt="New Gallery" className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </div>
               )}
-              <input id="images" type="file" name="images" multiple onChange={handleChange} accept="image/*" className="w-full text-sm p-1.5 border rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/50" />
+              <input id="images" type="file" name="images" multiple onChange={handleChange} accept="image/*" className={fileInputClass} />
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="start_date" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_start_date')}</label>
-            <input id="start_date" type="date" name="start_date" value={formData.start_date} onChange={handleChange} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white outline-none" />
+            <label htmlFor="start_date" className={labelClass}>{t('form.label_start_date')}</label>
+            <input id="start_date" type="date" name="start_date" value={formData.start_date} onChange={handleChange} className={inputClass} />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="end_date" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">{t('form.label_end_date')}</label>
-            <input id="end_date" type="date" name="end_date" value={formData.end_date} onChange={handleChange} className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white outline-none" />
+            <label htmlFor="end_date" className={labelClass}>{t('form.label_end_date')}</label>
+            <input id="end_date" type="date" name="end_date" value={formData.end_date} onChange={handleChange} className={inputClass} />
           </div>
-          <label className="md:col-span-2 inline-flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer p-1">
-            <input type="checkbox" name="is_published" checked={formData.is_published} onChange={handleChange} className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+          <label className="md:col-span-2 inline-flex items-center gap-3 text-sm text-sumi dark:text-paperInk cursor-pointer p-1">
+            <input type="checkbox" name="is_published" checked={formData.is_published} onChange={handleChange} className="w-4 h-4 border-sumi/30 dark:border-paperInk/30 text-ai focus:ring-ai" />
             {t('form.label_published')}
           </label>
-          <div className="md:col-span-2 flex justify-end gap-3 pt-6 border-t border-gray-50 dark:border-gray-800">
-            <button type="button" onClick={() => navigate('/admin/portfolios')} className="px-6 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium transition-colors">{t('form.button_cancel')}</button>
-            <button type="submit" disabled={saving} className="px-8 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold disabled:opacity-70 transition-all shadow-lg shadow-blue-200 dark:shadow-none">
+          <div className="md:col-span-2 flex justify-end gap-3 pt-6 border-t border-sumi/10 dark:border-paperInk/10">
+            <button type="button" onClick={() => navigate('/admin/portfolios')} className="px-6 py-2.5 border border-sumi/15 dark:border-paperInk/15 hover:border-ai dark:hover:border-aiLight text-sumi dark:text-paperInk font-medium text-sm transition-colors">{t('form.button_cancel')}</button>
+            <button type="submit" disabled={saving} className="px-8 py-2.5 bg-sumi dark:bg-paperInk text-kinari dark:text-aisumi font-bold text-sm uppercase tracking-wide disabled:opacity-70 hover:bg-ai dark:hover:bg-aiLight transition-colors">
               {saving ? t('form.button_saving') : t('form.button_save')}
             </button>
           </div>

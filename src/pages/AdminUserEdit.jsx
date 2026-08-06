@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
+import ThemeToggle from '../components/ThemeToggle';
 
 export default function AdminUserEdit() {
   const { id } = useParams();
@@ -55,47 +56,50 @@ export default function AdminUserEdit() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans pb-12 transition-colors duration-300">
+    <div className="min-h-screen bg-kinari dark:bg-aisumi font-body pb-12 transition-colors duration-300">
       <Helmet>
         <title>{t('user.edit_title')} | Admin</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <main className="max-w-xl mx-auto pt-10 px-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-          {t('user.edit_title')} (ID: {id})
-        </h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="font-display text-xl text-sumi dark:text-paperInk">
+            {t('user.edit_title')} <span className="font-mono text-base text-nibi dark:text-nibiDark">#{id}</span>
+          </h1>
+          <ThemeToggle />
+        </div>
         {error && (
-          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 dark:bg-red-900/30 dark:border-red-800 p-3 text-sm text-red-700 dark:text-red-400">
+          <div className="mb-4 border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/20 p-3 text-sm text-red-700 dark:text-red-400">
             {error}
           </div>
         )}
         {success && (
-          <div className="mb-4 rounded-lg border border-green-200 bg-green-50 dark:bg-green-900/30 dark:border-green-800 p-3 text-sm text-green-700 dark:text-green-400">
+          <div className="mb-4 border border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950/20 p-3 text-sm text-green-700 dark:text-green-400">
             {success}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 space-y-4 shadow-sm">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-aisumi2 border border-sumi/10 dark:border-paperInk/10 p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-semibold text-sumi dark:text-paperInk mb-1 px-1">
               {t('user.label_username')}
             </label>
             <input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className="w-full p-2.5 border border-sumi/15 dark:border-paperInk/15 bg-white dark:bg-aisumi text-sumi dark:text-paperInk focus:outline-none focus:border-ai dark:focus:border-aiLight transition-colors"
               autoComplete="off"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-semibold text-sumi dark:text-paperInk mb-1 px-1">
               {t('user.label_password')}
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className="w-full p-2.5 border border-sumi/15 dark:border-paperInk/15 bg-white dark:bg-aisumi text-sumi dark:text-paperInk focus:outline-none focus:border-ai dark:focus:border-aiLight transition-colors"
               autoComplete="new-password"
             />
           </div>
@@ -104,22 +108,22 @@ export default function AdminUserEdit() {
               type="button"
               onClick={handleDelete}
               disabled={loading}
-              className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white disabled:opacity-70 transition-colors"
+              className="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold uppercase tracking-wide disabled:opacity-70 transition-colors"
             >
               {t('user.button_delete')}
             </button>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => navigate('/admin/portfolios')}
-                className="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 transition-colors"
+                className="px-4 py-2.5 border border-sumi/15 dark:border-paperInk/15 hover:border-ai dark:hover:border-aiLight text-sumi dark:text-paperInk text-sm font-medium transition-colors"
               >
                 {t('user.button_back')}
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-70 transition-colors"
+                className="px-4 py-2.5 bg-sumi dark:bg-paperInk text-kinari dark:text-aisumi text-sm font-bold uppercase tracking-wide hover:bg-ai dark:hover:bg-aiLight disabled:opacity-70 transition-colors"
               >
                 {loading ? t('user.button_saving') : t('user.button_save')}
               </button>

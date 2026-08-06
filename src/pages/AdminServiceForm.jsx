@@ -16,6 +16,11 @@ const emptyForm = {
   is_active: true,
 };
 
+const inputClass = "p-2.5 border border-sumi/15 dark:border-paperInk/15 bg-white dark:bg-aisumi text-sumi dark:text-paperInk focus:outline-none focus:border-ai dark:focus:border-aiLight transition-colors";
+const labelClass = "text-sm font-semibold text-sumi dark:text-paperInk px-1";
+const hintClass = "text-xs text-nibi dark:text-nibiDark px-1";
+const fileInputClass = "w-full text-sm p-1.5 border border-sumi/15 dark:border-paperInk/15 bg-white dark:bg-aisumi text-nibi dark:text-nibiDark file:mr-4 file:py-1 file:px-4 file:border-0 file:text-xs file:font-semibold file:bg-kinari2 dark:file:bg-aisumi2 file:text-ai dark:file:text-aiLight hover:file:opacity-80";
+
 export default function AdminServiceForm() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -108,7 +113,7 @@ export default function AdminServiceForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans pb-12 transition-colors duration-300">
+    <div className="min-h-screen bg-kinari dark:bg-aisumi font-body pb-12 transition-colors duration-300">
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="robots" content="noindex, nofollow" />
@@ -116,23 +121,23 @@ export default function AdminServiceForm() {
 
       <main className="max-w-4xl mx-auto pt-10 px-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 className="font-display text-xl text-sumi dark:text-paperInk">
             {isEdit ? t('form.service_edit_title') : t('form.service_add_title')}
           </h1>
           <ThemeToggle />
         </div>
 
         {isEdit && !editingService && (
-          <div className="mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-700">
+          <div className="mb-4 border border-amber-200 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-900 p-3 text-sm text-amber-700 dark:text-amber-400">
             {t('form.error_not_found')}
           </div>
         )}
-        {error && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
-        {success && <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700">{success}</div>}
+        {error && <div className="mb-4 border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/20 p-3 text-sm text-red-700 dark:text-red-400">{error}</div>}
+        {success && <div className="mb-4 border border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950/20 p-3 text-sm text-green-700 dark:text-green-400">{success}</div>}
 
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 grid grid-cols-1 md:grid-cols-2 gap-6 transition-colors">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-aisumi2 border border-sumi/10 dark:border-paperInk/10 p-6 grid grid-cols-1 md:grid-cols-2 gap-6 transition-colors">
           <div className="flex flex-col gap-1 md:col-span-2">
-            <label htmlFor="title" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
+            <label htmlFor="title" className={labelClass}>
               Service / Product Title
             </label>
             <input
@@ -142,12 +147,12 @@ export default function AdminServiceForm() {
               value={formData.title}
               onChange={handleChange}
               placeholder="e.g. Landing Page Development"
-              className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className={inputClass}
             />
           </div>
 
           <div className="flex flex-col gap-1 md:col-span-2">
-            <label htmlFor="description" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
+            <label htmlFor="description" className={labelClass}>
               Description
             </label>
             <textarea
@@ -158,12 +163,12 @@ export default function AdminServiceForm() {
               onChange={handleChange}
               placeholder="Detailed description of the service..."
               rows={4}
-              className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className={inputClass}
             />
           </div>
 
           <div className="flex flex-col gap-1 md:col-span-2">
-            <label htmlFor="features" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
+            <label htmlFor="features" className={labelClass}>
               {t('form.label_features')}
             </label>
             <textarea
@@ -173,13 +178,13 @@ export default function AdminServiceForm() {
               onChange={handleChange}
               placeholder={t('form.placeholder_features')}
               rows={2}
-              className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className={inputClass}
             />
-            <p className="text-xs text-gray-400 dark:text-gray-500 px-1">{t('form.hint_features')}</p>
+            <p className={hintClass}>{t('form.hint_features')}</p>
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="original_price" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
+            <label htmlFor="original_price" className={labelClass}>
               {t('form.label_original_price')}
             </label>
             <input
@@ -189,12 +194,12 @@ export default function AdminServiceForm() {
               name="original_price"
               value={formData.original_price}
               onChange={handleChange}
-              className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className={inputClass}
             />
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="promo_price" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
+            <label htmlFor="promo_price" className={labelClass}>
               {t('form.label_promo_price')}
             </label>
             <input
@@ -204,13 +209,13 @@ export default function AdminServiceForm() {
               name="promo_price"
               value={formData.promo_price}
               onChange={handleChange}
-              className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className={inputClass}
             />
-            <p className="text-xs text-gray-400 dark:text-gray-500 px-1">{t('form.hint_custom_quote')}</p>
+            <p className={hintClass}>{t('form.hint_custom_quote')}</p>
           </div>
 
           <div className="flex flex-col gap-1 md:col-span-2">
-            <label htmlFor="redirect_url" className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
+            <label htmlFor="redirect_url" className={labelClass}>
               {t('form.label_redirect_url')}
             </label>
             <input
@@ -219,17 +224,17 @@ export default function AdminServiceForm() {
               value={formData.redirect_url}
               onChange={handleChange}
               placeholder={t('form.placeholder_redirect_url')}
-              className="p-2.5 border rounded-lg bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className={inputClass}
             />
           </div>
 
           <div className="flex flex-col gap-2 md:col-span-2">
-            <label className="text-sm font-semibold text-gray-700 dark:text-gray-300 px-1">
+            <label className={labelClass}>
               Service Image
             </label>
             <div className="flex items-start gap-4">
               {(imageFile || formData.image_url) && (
-                <div className="w-20 h-20 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 shrink-0">
+                <div className="w-20 h-20 overflow-hidden border border-sumi/15 dark:border-paperInk/15 bg-kinari2 dark:bg-aisumi shrink-0">
                   <img
                     src={imageFile ? URL.createObjectURL(imageFile) : formData.image_url}
                     alt="Preview"
@@ -244,35 +249,35 @@ export default function AdminServiceForm() {
                   name="image"
                   onChange={handleChange}
                   accept="image/*"
-                  className="w-full text-sm p-1.5 border rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-500 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/50"
+                  className={fileInputClass}
                 />
               </div>
             </div>
           </div>
 
-          <label className="md:col-span-2 inline-flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer p-1">
+          <label className="md:col-span-2 inline-flex items-center gap-3 text-sm text-sumi dark:text-paperInk cursor-pointer p-1">
             <input
               type="checkbox"
               name="is_active"
               checked={formData.is_active}
               onChange={handleChange}
-              className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              className="w-4 h-4 border-sumi/30 dark:border-paperInk/30 text-ai focus:ring-ai"
             />
             {t('form.label_active')}
           </label>
 
-          <div className="md:col-span-2 flex justify-end gap-3 pt-6 border-t border-gray-50 dark:border-gray-800">
+          <div className="md:col-span-2 flex justify-end gap-3 pt-6 border-t border-sumi/10 dark:border-paperInk/10">
             <button
               type="button"
               onClick={() => navigate('/admin/portfolios', { state: { activeTab: 'services' } })}
-              className="px-6 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium transition-colors"
+              className="px-6 py-2.5 border border-sumi/15 dark:border-paperInk/15 hover:border-ai dark:hover:border-aiLight text-sumi dark:text-paperInk font-medium text-sm transition-colors"
             >
               {t('form.button_cancel')}
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-8 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold disabled:opacity-70 transition-all shadow-lg shadow-blue-200 dark:shadow-none"
+              className="px-8 py-2.5 bg-sumi dark:bg-paperInk text-kinari dark:text-aisumi font-bold text-sm uppercase tracking-wide disabled:opacity-70 hover:bg-ai dark:hover:bg-aiLight transition-colors"
             >
               {saving ? t('form.button_saving') : t('form.button_save')}
             </button>

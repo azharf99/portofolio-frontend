@@ -41,6 +41,16 @@ function normalizeError(error) {
   }
 }
 
+/**
+ * True when a request failed because the backend itself is unhealthy or
+ * unreachable — 500/502/503/504 and network errors alike (normalizeError gives
+ * a response-less failure status 500). Public pages use this to fall back to
+ * static placeholder content instead of rendering an empty section.
+ */
+export function isServerDown(error) {
+  return typeof error?.status === 'number' && error.status >= 500;
+}
+
 const api = axios.create({
   baseURL: API_BASE_URL,
   // KEAMANAN: token auth dikirim lewat cookie httpOnly, bukan header Authorization yang

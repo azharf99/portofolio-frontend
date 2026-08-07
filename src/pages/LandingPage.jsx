@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import api from '../services/api';
+import api, { isServerDown } from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import ServicesSection from '../components/ServicesSection';
+import PlaceholderNotice from '../components/PlaceholderNotice';
+import { filterPlaceholderPortfolios } from '../data/placeholderContent';
 import { useTranslation } from 'react-i18next';
 import { Search, Download, Briefcase, ExternalLink, X, Mail, MessageCircle } from 'lucide-react';
 
@@ -74,7 +76,7 @@ function Portrait() {
       <div className="aspect-[4/5] w-full max-w-[15rem] border border-sumi/10 dark:border-paperInk/10 bg-gradient-to-br from-kinari2 to-kinari dark:from-aisumi2 dark:to-aisumi overflow-hidden flex items-center justify-center">
         {!failed ? (
           <img
-            src="/profile.jpg"
+            src="/profile.png"
             alt="Azhar Faturohman Ahidin"
             className="w-full h-full object-cover"
             onError={() => setFailed(true)}
@@ -90,6 +92,23 @@ function Portrait() {
   );
 }
 
+// Thumbnail stand-in for projects with no image_url. Rendered locally instead of
+// reaching for placehold.co — the placeholder projects show up precisely when the
+// backend is unreachable, which is the worst moment to depend on a third party.
+function ThumbFallback({ label, size = 'card' }) {
+  return (
+    <div className="w-full h-full flex items-center justify-center px-5 bg-gradient-to-br from-kinari2 to-kinari dark:from-aisumi2 dark:to-aisumi">
+      <span
+        className={`font-display text-center leading-snug text-sumi/35 dark:text-paperInk/35 ${
+          size === 'modal' ? 'text-2xl md:text-3xl' : 'text-lg'
+        }`}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
 export default function LandingPage() {
   const { t } = useTranslation();
   const [portfolios, setPortfolios] = useState([]);
@@ -101,6 +120,7 @@ export default function LandingPage() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [usingPlaceholder, setUsingPlaceholder] = useState(false);
   const [selectedPortfolio, setSelectedPortfolio] = useState(null);
   const limit = DEFAULT_LIMIT;
 
@@ -125,10 +145,23 @@ export default function LandingPage() {
       });
       setPortfolios(response.data.data || []);
       setTotal(response.data.total || 0);
+      setUsingPlaceholder(false);
     } catch (error) {
-      setError(error.message || t('common.error'));
-      setPortfolios([]);
-      setTotal(0);
+      // Backend down (5xx / unreachable): show the static placeholder projects
+      // rather than an empty section. Client-side errors (400/404/429) still
+      // surface as an error — those are about this request, not the server.
+      if (isServerDown(error)) {
+        const matches = filterPlaceholderPortfolios({ search: debouncedSearch, industry, type });
+        const offset = (safePage - 1) * safeLimit;
+        setPortfolios(matches.slice(offset, offset + safeLimit));
+        setTotal(matches.length);
+        setUsingPlaceholder(true);
+      } else {
+        setError(error.message || t('common.error'));
+        setPortfolios([]);
+        setTotal(0);
+        setUsingPlaceholder(false);
+      }
     } finally {
       setLoading(false);
     }
@@ -252,7 +285,10 @@ export default function LandingPage() {
                 {t('about.heading')}
               </h2>
               <p className="text-sm md:text-base text-nibi dark:text-nibiDark leading-relaxed mb-8 max-w-xl">
-                {t('about.bio')}
+                {t('about.bio.0')}
+              </p>
+              <p className="text-sm md:text-base text-nibi dark:text-nibiDark leading-relaxed mb-8 max-w-xl">
+                {t('about.bio.1')}
               </p>
               <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-sumi/10 dark:border-paperInk/10 pt-6 max-w-xl">
                 <div>
@@ -292,6 +328,7 @@ export default function LandingPage() {
               <p className="text-sm md:text-base text-nibi dark:text-nibiDark max-w-xl">
                 {t('work.subtitle')}
               </p>
+              {usingPlaceholder && <PlaceholderNotice className="mt-5" />}
             </div>
 
             {/* Fitur Search & Filter */}
@@ -366,13 +403,17 @@ export default function LandingPage() {
                     className="border-b border-r border-sumi/10 dark:border-paperInk/10 flex flex-col cursor-pointer group bg-white dark:bg-aisumi2 hover:bg-kinari2 dark:hover:bg-aisumi transition-colors"
                   >
                     <div className="h-44 bg-kinari2 dark:bg-aisumi relative overflow-hidden">
-                      <img
-                        src={item.image_url || `https://placehold.co/400x200?text=${item.title}`}
-                        alt={item.title}
-                        loading="lazy"
-                        onError={handleImageError}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      {item.image_url ? (
+                        <img
+                          src={item.image_url}
+                          alt={item.title}
+                          loading="lazy"
+                          onError={handleImageError}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <ThumbFallback label={item.title} />
+                      )}
                       <span className="absolute top-3 right-3 bg-kinari/90 dark:bg-aisumi/90 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-wide text-sumi dark:text-paperInk">
                         {item.industry}
                       </span>
@@ -382,10 +423,14 @@ export default function LandingPage() {
                       <p className="text-sm text-nibi dark:text-nibiDark mb-4 line-clamp-2">{item.description}</p>
 
                       <div className="mt-auto pt-4 border-t border-sumi/10 dark:border-paperInk/10 flex items-center justify-between">
-                        <span className="flex items-center gap-2 text-xs text-nibi dark:text-nibiDark font-medium">
-                          <Briefcase size={14} className="text-ai dark:text-aiLight" />
-                          {item.role}
-                        </span>
+                        {item.role ? (
+                          <span className="flex items-center gap-2 text-xs text-nibi dark:text-nibiDark font-medium">
+                            <Briefcase size={14} className="text-ai dark:text-aiLight" />
+                            {item.role}
+                          </span>
+                        ) : (
+                          <span />
+                        )}
                         <div className="flex items-center gap-1 text-ai dark:text-aiLight font-semibold text-xs">
                           {t('portfolio.detail')} <ExternalLink size={12} />
                         </div>
@@ -423,13 +468,17 @@ export default function LandingPage() {
                       {/* Bagian Gambar & Galeri */}
                       <div>
                         <div className="overflow-hidden bg-kinari2 dark:bg-aisumi aspect-video mb-4">
-                          <img
-                            src={selectedPortfolio.image_url || `https://placehold.co/800x450?text=${selectedPortfolio.title}`}
-                            alt={selectedPortfolio.title}
-                            loading="lazy"
-                            onError={handleImageError}
-                            className="w-full h-full object-cover"
-                          />
+                          {selectedPortfolio.image_url ? (
+                            <img
+                              src={selectedPortfolio.image_url}
+                              alt={selectedPortfolio.title}
+                              loading="lazy"
+                              onError={handleImageError}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <ThumbFallback label={selectedPortfolio.title} size="modal" />
+                          )}
                         </div>
 
                         {selectedPortfolio.images && selectedPortfolio.images.length > 0 && (
@@ -465,18 +514,24 @@ export default function LandingPage() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-6">
-                          <div>
-                            <h4 className="text-[0.68rem] font-bold text-nibi dark:text-nibiDark uppercase tracking-[0.12em] mb-1">{t('portfolio.role')}</h4>
-                            <p className="text-sm text-sumi dark:text-paperInk font-medium">{selectedPortfolio.role}</p>
-                          </div>
-                          <div>
-                            <h4 className="text-[0.68rem] font-bold text-nibi dark:text-nibiDark uppercase tracking-[0.12em] mb-1">{t('portfolio.industry')}</h4>
-                            <p className="text-sm text-sumi dark:text-paperInk font-medium">{selectedPortfolio.industry}</p>
-                          </div>
-                          <div>
-                            <h4 className="text-[0.68rem] font-bold text-nibi dark:text-nibiDark uppercase tracking-[0.12em] mb-1">{t('portfolio.type')}</h4>
-                            <p className="text-sm text-sumi dark:text-paperInk font-medium">{selectedPortfolio.type}</p>
-                          </div>
+                          {selectedPortfolio.role && (
+                            <div>
+                              <h4 className="text-[0.68rem] font-bold text-nibi dark:text-nibiDark uppercase tracking-[0.12em] mb-1">{t('portfolio.role')}</h4>
+                              <p className="text-sm text-sumi dark:text-paperInk font-medium">{selectedPortfolio.role}</p>
+                            </div>
+                          )}
+                          {selectedPortfolio.industry && (
+                            <div>
+                              <h4 className="text-[0.68rem] font-bold text-nibi dark:text-nibiDark uppercase tracking-[0.12em] mb-1">{t('portfolio.industry')}</h4>
+                              <p className="text-sm text-sumi dark:text-paperInk font-medium">{selectedPortfolio.industry}</p>
+                            </div>
+                          )}
+                          {selectedPortfolio.type && (
+                            <div>
+                              <h4 className="text-[0.68rem] font-bold text-nibi dark:text-nibiDark uppercase tracking-[0.12em] mb-1">{t('portfolio.type')}</h4>
+                              <p className="text-sm text-sumi dark:text-paperInk font-medium">{selectedPortfolio.type}</p>
+                            </div>
+                          )}
                           {selectedPortfolio.tech_stack && (
                             <div>
                               <h4 className="text-[0.68rem] font-bold text-nibi dark:text-nibiDark uppercase tracking-[0.12em] mb-1">{t('portfolio.tech_stack')}</h4>
@@ -561,7 +616,7 @@ export default function LandingPage() {
                 <span className="text-[0.68rem] tracking-[0.12em] uppercase text-nibi dark:text-nibiDark flex items-center gap-2">
                   <MessageCircle size={14} /> {t('contact.whatsapp')}
                 </span>
-                <span className="font-mono text-sm">+62 857-0257-0200</span>
+                <span className="font-mono text-sm">+62 857-0157-0100</span>
               </a>
               <a
                 href="https://github.com/azharf99"

@@ -15,12 +15,21 @@ const formatPrice = (price) =>
  * - price > 0  -> "Order now", opens the checkout/payment flow (onOrder callback).
  * - price == 0 -> "Custom quote", CTA links straight to the service's WhatsApp
  *                 redirect_url instead of the checkout flow (nothing to charge yet).
+ *
+ * Placeholder records (is_placeholder, rendered when the backend is down) always
+ * use the WhatsApp CTA even when priced — checkout needs the API to create the
+ * transaction, so sending someone into that flow would only dead-end. The price
+ * itself is still shown.
  */
 export default function ServiceCard({ service, onOrder }) {
   const { t } = useTranslation();
   const effectivePrice = service.promo_price > 0 ? service.promo_price : service.original_price;
-  const hasDiscount = service.original_price > 0 && service.original_price > service.promo_price;
+  // A discount only exists when there is an actual promo price. Without the
+  // promo_price > 0 guard, a service priced normally (promo_price = 0) struck
+  // through its own price as if it were a discount.
+  const hasDiscount = service.promo_price > 0 && service.original_price > service.promo_price;
   const isCustomQuote = !effectivePrice || effectivePrice <= 0;
+  const useContactCta = isCustomQuote || Boolean(service.is_placeholder);
   const features = (service.features || '')
     .split(',')
     .map((f) => f.trim())
@@ -28,6 +37,11 @@ export default function ServiceCard({ service, onOrder }) {
 
   return (
     <div className="flex flex-col h-full border border-sumi/10 dark:border-paperInk/10 bg-white dark:bg-aisumi2 p-6 md:p-7 transition-colors hover:border-ai/50 dark:hover:border-aiLight/50">
+      {service.audience && (
+        <span className="text-[0.68rem] font-bold tracking-[0.12em] uppercase text-nibi dark:text-nibiDark mb-2">
+          {service.audience}
+        </span>
+      )}
       <h3 className="font-display text-xl md:text-[1.35rem] text-sumi dark:text-paperInk mb-2 leading-snug">
         {service.title}
       </h3>
@@ -68,7 +82,7 @@ export default function ServiceCard({ service, onOrder }) {
       )}
       {features.length === 0 && <div className="flex-grow" />}
 
-      {isCustomQuote ? (
+      {useContactCta ? (
         <a
           href={sanitizeUrl(service.redirect_url)}
           target="_blank"

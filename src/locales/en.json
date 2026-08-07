@@ -1,9 +1,9 @@
 {
   "hero": {
     "title": "Hi, I'm",
-    "description": "I design and build the systems behind products — APIs, automation, and the infrastructure that keeps them running smoothly as they scale.",
+    "description": "I design and build the infrastructure behind products — APIs, gateways, admin systems, and the pipes between them — using Go, React, and PostgreSQL. Quiet, reliable engineering over trends.",
     "download_cv": "Download CV",
-    "role_line": "Full-Stack Engineer — Backend Architecture · Automation · API Integration"
+    "role_line": "Full-Stack Engineer — System Architecture · Automation · API Integration"
   },
   "sections": {
     "profile": "Profile",
@@ -14,10 +14,13 @@
   },
   "about": {
     "heading": "Backend-first, built for growth.",
-    "bio": "I'm Azhar Faturohman Ahidin, a full-stack engineer with 4+ years building scalable, high-performance backend systems in Golang (Gin) and Python (Django). Most of my work sits in enterprise architecture, automation, and API integrations — including projects that lifted a client's operational efficiency by up to 40%. I'm comfortable owning the full development cycle, from database design (PostgreSQL/MySQL) through deployment with Docker and Nginx, and I care about writing clean code and systems built to keep working as they grow.",
+    "bio": [
+      "I'm a full-stack developer based in Indonesia with 5+ years of experience, focused on backend systems, application security, and pragmatic architecture. Over the past several years I've shipped internal tools and client-facing platforms end to end — from database schema to the interface people actually touch.",
+      "Most of my work sits at the unglamorous, important layer: payment flows, messaging gateways, admin panels, and the systems small businesses depend on daily. I like software that stays boring in production."
+    ],
     "portrait_pending": "Photo",
     "fact_experience": "Experience",
-    "fact_experience_value": "4+ years",
+    "fact_experience_value": "5+ years",
     "fact_focus": "Focus",
     "fact_focus_value": "Enterprise architecture, automation, API integration",
     "fact_stack": "Stack",
@@ -86,7 +89,8 @@
   "common": {
     "loading": "Loading...",
     "error": "An error occurred.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "offline_notice": "Live data is temporarily unavailable — showing a saved copy."
   },
   "admin": {
     "dashboard_title": "Admin Dashboard",

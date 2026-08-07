@@ -1,0 +1,46 @@
+Infrastructure
+URL Shortener
+Self-hosted link shortener with click analytics and custom slugs.
+
+Go · Redis
+Link: https://url.azharfa.cloud
+
+
+Product
+Link-in-Bio Tool
+Lightweight landing-page builder for creators' social profiles.
+
+React · Go
+Link: https://link.azharfa.cloud
+
+
+Education
+LogicFlow.id
+Coding school platform — course delivery, cohorts, and student tracking.
+
+Next.js · PostgreSQL
+Link: https://logicflow.id
+
+
+Messaging
+WhatsApp Gateway
+Multi-device messaging API for business notifications at scale.
+
+Go · WebSocket
+Link : https://wa.azharfa.cloud
+
+
+Messaging
+Telegram Userbot Gateway
+Automated Telegram messaging layer with queueing and retries.
+
+Go · MTProto
+Link : https://tele.azharfa.cloud
+
+
+Enterprise
+ERP Suite
+HR, finance, supply chain, and CRM unified in one system.
+
+Go · React
+Link : https://erp.azharfa.cloud

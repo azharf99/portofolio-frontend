@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet-async';
-import api from '../services/api';
+import api, { isServerDown } from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import CheckoutModal from '../components/CheckoutModal';
 import ServiceCard from '../components/ServiceCard';
+import PlaceholderNotice from '../components/PlaceholderNotice';
+import { PLACEHOLDER_SERVICES } from '../data/placeholderContent';
 import { ArrowLeft } from 'lucide-react';
 
 export default function ServicesPage() {
@@ -15,6 +17,7 @@ export default function ServicesPage() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [usingPlaceholder, setUsingPlaceholder] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
@@ -27,8 +30,16 @@ export default function ServicesPage() {
           params: { page: 1, limit: 100 } // Fetch all services for the dedicated page
         });
         setServices(response.data.data || []);
+        setUsingPlaceholder(false);
       } catch (err) {
-        setError(err.message || t('common.error'));
+        // Backend down (5xx / unreachable): fall back to the static service list.
+        if (isServerDown(err)) {
+          setServices(PLACEHOLDER_SERVICES);
+          setUsingPlaceholder(true);
+        } else {
+          setError(err.message || t('common.error'));
+          setUsingPlaceholder(false);
+        }
       } finally {
         setLoading(false);
       }
@@ -79,6 +90,7 @@ export default function ServicesPage() {
           <p className="text-sm md:text-base text-nibi dark:text-nibiDark max-w-xl">
             {t('services.subtitle')}
           </p>
+          {usingPlaceholder && <PlaceholderNotice className="mt-5" />}
         </div>
 
         {loading ? (

@@ -1,9 +1,9 @@
 {
   "hero": {
     "title": "Hi, Aku",
-    "description": "Aku merancang dan membangun sistem di balik produk — API, otomasi, dan infrastruktur yang membuatnya tetap berjalan mulus saat bisnis Anda berkembang.",
+    "description": "Saya merancang dan membangun infrastruktur di balik berbagai produk — API, gateway, sistem admin, serta saluran penghubung di antara semuanya — menggunakan Go, React, dan PostgreSQL. Saya lebih mengutamakan pengembangan yang tenang dan andal daripada sekadar mengikuti tren.",
     "download_cv": "Download CV",
-    "role_line": "Full-Stack Engineer — Arsitektur Backend · Otomasi · Integrasi API"
+    "role_line": "Full-Stack Engineer — Arsitektur Sistem · Otomasi · Integrasi API"
   },
   "sections": {
     "profile": "Profil",
@@ -14,10 +14,13 @@
   },
   "about": {
     "heading": "Backend-first, dibangun untuk bertumbuh.",
-    "bio": "Saya Azhar Faturohman Ahidin, Full-Stack Engineer dengan pengalaman lebih dari 4 tahun membangun sistem backend yang scalable dan berperforma tinggi menggunakan Golang (Gin) dan Python (Django). Saya banyak mengerjakan arsitektur enterprise, sistem otomatisasi, dan integrasi API — termasuk proyek yang berhasil meningkatkan efisiensi operasional klien hingga 40%. Saya terbiasa memegang siklus pengembangan penuh, dari merancang basis data (PostgreSQL/MySQL) sampai deployment dengan Docker dan Nginx, dan selalu berusaha menulis kode yang bersih serta sistem yang tetap mudah dikembangkan dalam jangka panjang.",
+    "bio": [
+      "Saya seorang pengembang full-stack yang berbasis di Indonesia dengan lebih dari5 tahun pengalaman, dengan fokus pada sistem backend, keamanan aplikasi, dan arsitektur pragmatis. Selama beberapa tahun terakhir, saya telah mengembangkan alat internal dan platform yang ditujukan untuk klien secara menyeluruh — mulai dari skema basis data hingga antarmuka yang benar-benar digunakan oleh pengguna.",
+      "Sebagian besar pekerjaan saya berada di lapisan yang tidak terlalu mencolok namun penting: alur pembayaran, gerbang pesan, panel admin, dan sistem yang menjadi andalan usaha kecil setiap hari. Saya menyukai perangkat lunak yang tetap berjalan tanpa masalah saat diproduksi."
+    ],
     "portrait_pending": "Foto",
     "fact_experience": "Pengalaman",
-    "fact_experience_value": "4+ tahun",
+    "fact_experience_value": "5+ tahun",
     "fact_focus": "Fokus",
     "fact_focus_value": "Arsitektur enterprise, otomasi, integrasi API",
     "fact_stack": "Stack",
@@ -86,7 +89,8 @@
   "common": {
     "loading": "Memuat...",
     "error": "Terjadi kesalahan.",
-    "retry": "Coba lagi"
+    "retry": "Coba lagi",
+    "offline_notice": "Data langsung sedang tidak tersedia — menampilkan salinan tersimpan."
   },
   "admin": {
     "dashboard_title": "Admin Dashboard",

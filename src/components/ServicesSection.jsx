@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import api from '../services/api';
+import api, { isServerDown } from '../services/api';
 import CheckoutModal from './CheckoutModal';
 import ServiceCard from './ServiceCard';
+import PlaceholderNotice from './PlaceholderNotice';
+import { PLACEHOLDER_SERVICES } from '../data/placeholderContent';
 import { ArrowRight } from 'lucide-react';
 
 export default function ServicesSection({ limit = 6, showSeeMore = true }) {
@@ -12,6 +14,7 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [usingPlaceholder, setUsingPlaceholder] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
@@ -24,8 +27,17 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
           params: { page: 1, limit: limit }
         });
         setServices(response.data.data || []);
+        setUsingPlaceholder(false);
       } catch (err) {
-        setError(err.message || t('common.error'));
+        // Backend down (5xx / unreachable): fall back to the static service
+        // list so visitors still see what is on offer and how to reach out.
+        if (isServerDown(err)) {
+          setServices(PLACEHOLDER_SERVICES.slice(0, limit));
+          setUsingPlaceholder(true);
+        } else {
+          setError(err.message || t('common.error'));
+          setUsingPlaceholder(false);
+        }
       } finally {
         setLoading(false);
       }
@@ -80,6 +92,7 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
           <p className="text-sm md:text-base text-nibi dark:text-nibiDark max-w-xl">
             {t('services.subtitle')}
           </p>
+          {usingPlaceholder && <PlaceholderNotice className="mt-5" />}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 border border-sumi/10 dark:border-paperInk/10 divide-y md:divide-y-0 md:divide-x divide-sumi/10 dark:divide-paperInk/10">
@@ -88,7 +101,7 @@ export default function ServicesSection({ limit = 6, showSeeMore = true }) {
           ))}
         </div>
 
-        {showSeeMore && services.length >= limit && (
+        {showSeeMore && !usingPlaceholder && services.length >= limit && (
           <div className="flex justify-center mt-10">
             <button
               onClick={() => navigate('/services')}

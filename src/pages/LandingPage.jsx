@@ -608,7 +608,7 @@ export default function LandingPage() {
                 <span className="font-mono text-sm">azharfaturohman29@gmail.com</span>
               </a>
               <a
-                href="https://wa.me/6285702570200"
+                href="https://wa.me/6285701570100"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-between gap-3 pb-3 border-b border-sumi/15 dark:border-paperInk/15 text-sumi dark:text-paperInk hover:text-ai dark:hover:text-aiLight hover:border-ai dark:hover:border-aiLight transition-colors"

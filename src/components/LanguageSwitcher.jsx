@@ -10,12 +10,12 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <Languages size={20} className="text-gray-500 dark:text-gray-400" />
+    <div className="flex items-center gap-2 border border-sumi/15 dark:border-paperInk/15 px-2.5 py-2">
+      <Languages size={16} className="text-nibi dark:text-nibiDark" />
       <select
         value={i18n.language}
         onChange={(e) => changeLanguage(e.target.value)}
-        className="bg-transparent text-sm font-medium text-gray-700 dark:text-gray-300 focus:outline-none cursor-pointer"
+        className="bg-transparent text-sm font-medium text-sumi dark:text-paperInk focus:outline-none cursor-pointer"
       >
         <option value="id">ID</option>
         <option value="en">EN</option>

@@ -16,7 +16,7 @@ export default function AdminDashboard() {
 
   // Ambil activeTab dari state router jika kembali dari form submit, default ke 'portfolios'
   const [activeTab, setActiveTab] = useState(location.state?.activeTab || 'portfolios');
-  
+
   const [portfolios, setPortfolios] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -103,21 +103,21 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans pb-12 transition-colors duration-300">
+    <div className="min-h-screen bg-kinari dark:bg-aisumi font-body pb-12 transition-colors duration-300">
       <Helmet>
         <title>Dashboard | Admin Azhar Faturohman Ahidin</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       {/* Navbar Admin */}
-      <nav className="bg-white dark:bg-gray-900 shadow-sm px-6 py-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
-        <h1 className="text-xl font-bold text-gray-800 dark:text-white">{t('admin.dashboard_title')}</h1>
-        <div className="flex items-center gap-6">
+      <nav className="bg-white dark:bg-aisumi2 px-6 py-4 flex justify-between items-center border-b border-sumi/10 dark:border-paperInk/10">
+        <h1 className="font-display text-lg text-sumi dark:text-paperInk">{t('admin.dashboard_title')}</h1>
+        <div className="flex items-center gap-4">
           <LanguageSwitcher />
           <ThemeToggle />
-          <button onClick={() => navigate('/')} className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
+          <button onClick={() => navigate('/')} className="text-sm font-medium text-nibi dark:text-nibiDark hover:text-ai dark:hover:text-aiLight transition-colors">
             {t('admin.view_public')}
           </button>
-          <button onClick={handleLogout} className="flex items-center gap-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 transition">
+          <button onClick={handleLogout} className="flex items-center gap-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors">
             <LogOut size={16} /> {t('admin.logout')}
           </button>
         </div>
@@ -125,23 +125,23 @@ export default function AdminDashboard() {
 
       {/* Tab Switcher */}
       <div className="max-w-6xl mx-auto mt-6 px-6">
-        <div className="flex border-b border-gray-200 dark:border-gray-800">
+        <div className="flex border-b border-sumi/10 dark:border-paperInk/10">
           <button
             onClick={() => { setActiveTab('portfolios'); setMessage(''); setError(''); }}
-            className={`py-3 px-6 font-semibold text-sm border-b-2 transition ${
+            className={`py-3 px-6 font-semibold text-sm border-b-2 transition-colors ${
               activeTab === 'portfolios'
-                ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-                : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                ? 'border-ai text-ai dark:border-aiLight dark:text-aiLight'
+                : 'border-transparent text-nibi dark:text-nibiDark hover:text-sumi dark:hover:text-paperInk'
             }`}
           >
             {t('admin.manage_portfolio')}
           </button>
           <button
             onClick={() => { setActiveTab('services'); setMessage(''); setError(''); }}
-            className={`py-3 px-6 font-semibold text-sm border-b-2 transition ${
+            className={`py-3 px-6 font-semibold text-sm border-b-2 transition-colors ${
               activeTab === 'services'
-                ? 'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-                : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                ? 'border-ai text-ai dark:border-aiLight dark:text-aiLight'
+                : 'border-transparent text-nibi dark:text-nibiDark hover:text-sumi dark:hover:text-paperInk'
             }`}
           >
             {t('admin.manage_services')}
@@ -151,62 +151,62 @@ export default function AdminDashboard() {
 
       <main className="max-w-6xl mx-auto mt-6 px-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="font-display text-xl text-sumi dark:text-paperInk">
             {activeTab === 'portfolios' ? t('admin.manage_portfolio') : t('admin.manage_services')}
           </h2>
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <button
               onClick={() => navigate('/admin/users/1/edit')}
-              className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center gap-2 text-sm font-medium transition"
+              className="bg-white dark:bg-aisumi2 hover:border-ai dark:hover:border-aiLight text-sumi dark:text-paperInk px-4 py-2.5 border border-sumi/15 dark:border-paperInk/15 flex items-center gap-2 text-sm font-medium transition-colors"
             >
-              <UserCog size={18} /> {t('admin.manage_user')}
+              <UserCog size={16} /> {t('admin.manage_user')}
             </button>
             <button
               onClick={() => navigate(activeTab === 'portfolios' ? '/admin/portfolios/new' : '/admin/services/new')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition shadow-lg shadow-blue-200 dark:shadow-none"
+              className="bg-sumi dark:bg-paperInk text-kinari dark:text-aisumi px-4 py-2.5 flex items-center gap-2 text-sm font-bold uppercase tracking-wide hover:bg-ai dark:hover:bg-aiLight transition-colors"
             >
-              <Plus size={18} /> {t('admin.add_new')}
+              <Plus size={16} /> {t('admin.add_new')}
             </button>
           </div>
         </div>
-        {message && <div className="mb-4 rounded-lg border border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-900/20 p-3 text-sm text-green-700 dark:text-green-400">{message}</div>}
-        {error && <div className="mb-4 rounded-lg border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-900/20 p-3 text-sm text-red-700 dark:text-red-400">{error}</div>}
+        {message && <div className="mb-4 border border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-900/20 p-3 text-sm text-green-700 dark:text-green-400">{message}</div>}
+        {error && <div className="mb-4 border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-900/20 p-3 text-sm text-red-700 dark:text-red-400">{error}</div>}
 
         {/* Portfolios Table */}
         {activeTab === 'portfolios' && (
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors">
+          <div className="bg-white dark:bg-aisumi2 border border-sumi/10 dark:border-paperInk/10 overflow-hidden transition-colors overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800 text-sm text-gray-600 dark:text-gray-400">
-                  <th className="p-4 font-semibold">{t('admin.table_title')}</th>
-                  <th className="p-4 font-semibold">{t('admin.table_industry')}</th>
-                  <th className="p-4 font-semibold">{t('admin.table_type')}</th>
-                  <th className="p-4 font-semibold text-center">{t('admin.table_actions')}</th>
+                <tr className="bg-kinari2 dark:bg-aisumi border-b border-sumi/10 dark:border-paperInk/10 text-[0.68rem] uppercase tracking-wide text-nibi dark:text-nibiDark">
+                  <th className="p-4 font-bold">{t('admin.table_title')}</th>
+                  <th className="p-4 font-bold">{t('admin.table_industry')}</th>
+                  <th className="p-4 font-bold">{t('admin.table_type')}</th>
+                  <th className="p-4 font-bold text-center">{t('admin.table_actions')}</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">{t('common.loading')}</td>
+                    <td colSpan="4" className="p-8 text-center text-sm text-nibi dark:text-nibiDark">{t('common.loading')}</td>
                   </tr>
                 ) : portfolios.map((item) => (
-                  <tr key={item.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
-                    <td className="p-4 font-medium text-gray-800 dark:text-gray-200">{item.title}</td>
-                    <td className="p-4 text-gray-600 dark:text-gray-400">{item.industry}</td>
-                    <td className="p-4 text-gray-600 dark:text-gray-400">{item.type}</td>
-                    <td className="p-4 flex justify-center gap-3">
-                      <button onClick={() => navigate(`/admin/portfolios/${item.id}/edit`, { state: { portfolio: item } })} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg transition">
-                        <Edit size={18} />
+                  <tr key={item.id} className="border-b border-sumi/10 dark:border-paperInk/10 hover:bg-kinari2 dark:hover:bg-aisumi transition-colors">
+                    <td className="p-4 font-medium text-sm text-sumi dark:text-paperInk">{item.title}</td>
+                    <td className="p-4 text-sm text-nibi dark:text-nibiDark">{item.industry}</td>
+                    <td className="p-4 text-sm text-nibi dark:text-nibiDark">{item.type}</td>
+                    <td className="p-4 flex justify-center gap-2">
+                      <button onClick={() => navigate(`/admin/portfolios/${item.id}/edit`, { state: { portfolio: item } })} className="text-ai dark:text-aiLight hover:opacity-70 border border-sumi/15 dark:border-paperInk/15 p-2 transition-opacity">
+                        <Edit size={16} />
                       </button>
-                      <button onClick={() => handleDeletePortfolio(item.id)} className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg transition">
-                        <Trash2 size={18} />
+                      <button onClick={() => handleDeletePortfolio(item.id)} className="text-red-600 dark:text-red-400 hover:opacity-70 border border-sumi/15 dark:border-paperInk/15 p-2 transition-opacity">
+                        <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>
                 ))}
                 {!loading && portfolios.length === 0 && (
                   <tr>
-                    <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">{t('admin.empty')}</td>
+                    <td colSpan="4" className="p-8 text-center text-sm text-nibi dark:text-nibiDark">{t('admin.empty')}</td>
                   </tr>
                 )}
               </tbody>
@@ -216,39 +216,39 @@ export default function AdminDashboard() {
 
         {/* Services Table */}
         {activeTab === 'services' && (
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors">
+          <div className="bg-white dark:bg-aisumi2 border border-sumi/10 dark:border-paperInk/10 overflow-hidden transition-colors overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800 text-sm text-gray-600 dark:text-gray-400">
-                  <th className="p-4 font-semibold">{t('admin.table_title')}</th>
-                  <th className="p-4 font-semibold">{t('admin.table_original_price')}</th>
-                  <th className="p-4 font-semibold">{t('admin.table_promo_price')}</th>
-                  <th className="p-4 font-semibold text-center">{t('admin.table_actions')}</th>
+                <tr className="bg-kinari2 dark:bg-aisumi border-b border-sumi/10 dark:border-paperInk/10 text-[0.68rem] uppercase tracking-wide text-nibi dark:text-nibiDark">
+                  <th className="p-4 font-bold">{t('admin.table_title')}</th>
+                  <th className="p-4 font-bold">{t('admin.table_original_price')}</th>
+                  <th className="p-4 font-bold">{t('admin.table_promo_price')}</th>
+                  <th className="p-4 font-bold text-center">{t('admin.table_actions')}</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">{t('common.loading')}</td>
+                    <td colSpan="4" className="p-8 text-center text-sm text-nibi dark:text-nibiDark">{t('common.loading')}</td>
                   </tr>
                 ) : services.map((item) => (
-                  <tr key={item.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition">
-                    <td className="p-4 font-medium text-gray-800 dark:text-gray-200">{item.title}</td>
-                    <td className="p-4 text-gray-600 dark:text-gray-400">{formatPrice(item.original_price)}</td>
-                    <td className="p-4 text-gray-600 dark:text-gray-400 font-bold text-green-600 dark:text-green-400">{formatPrice(item.promo_price)}</td>
-                    <td className="p-4 flex justify-center gap-3">
-                      <button onClick={() => navigate(`/admin/services/${item.id}/edit`, { state: { service: item } })} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg transition">
-                        <Edit size={18} />
+                  <tr key={item.id} className="border-b border-sumi/10 dark:border-paperInk/10 hover:bg-kinari2 dark:hover:bg-aisumi transition-colors">
+                    <td className="p-4 font-medium text-sm text-sumi dark:text-paperInk">{item.title}</td>
+                    <td className="p-4 text-sm font-mono tabular-nums text-nibi dark:text-nibiDark">{formatPrice(item.original_price)}</td>
+                    <td className="p-4 text-sm font-mono tabular-nums font-bold text-ai dark:text-aiLight">{formatPrice(item.promo_price)}</td>
+                    <td className="p-4 flex justify-center gap-2">
+                      <button onClick={() => navigate(`/admin/services/${item.id}/edit`, { state: { service: item } })} className="text-ai dark:text-aiLight hover:opacity-70 border border-sumi/15 dark:border-paperInk/15 p-2 transition-opacity">
+                        <Edit size={16} />
                       </button>
-                      <button onClick={() => handleDeleteService(item.id)} className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg transition">
-                        <Trash2 size={18} />
+                      <button onClick={() => handleDeleteService(item.id)} className="text-red-600 dark:text-red-400 hover:opacity-70 border border-sumi/15 dark:border-paperInk/15 p-2 transition-opacity">
+                        <Trash2 size={16} />
                       </button>
                     </td>
                   </tr>
                 ))}
                 {!loading && services.length === 0 && (
                   <tr>
-                    <td colSpan="4" className="p-8 text-center text-gray-500 dark:text-gray-400">{t('admin.empty_services')}</td>
+                    <td colSpan="4" className="p-8 text-center text-sm text-nibi dark:text-nibiDark">{t('admin.empty_services')}</td>
                   </tr>
                 )}
               </tbody>

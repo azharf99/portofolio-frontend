@@ -4,7 +4,12 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, new URL('.', import.meta.url).pathname, '')
+  // NB: new URL('.', import.meta.url).pathname yields "/D:/..." on Windows —
+  // an fs path Node can't resolve, so .env silently failed to load and the
+  // dev proxy always errored with "Must set target or forward". process.cwd()
+  // is portable across Windows/macOS/Linux since Vite always runs from the
+  // project root.
+  const env = loadEnv(mode, process.cwd(), '')
   const targetUrl = env.VITE_TARGET_URL
 
   return {

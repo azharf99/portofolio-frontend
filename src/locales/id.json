@@ -1,8 +1,41 @@
 {
   "hero": {
     "title": "Hi, Aku",
-    "description": "Seorang profesional yang berdedikasi tinggi. Di bawah ini adalah karya dan proyek yang pernah aku selesaikan. Fokus utamaku mencakup Cybersecurity, Backend Development, dan System Architecture.",
-    "download_cv": "Download CV"
+    "description": "Aku merancang dan membangun sistem di balik produk — API, otomasi, dan infrastruktur yang membuatnya tetap berjalan mulus saat bisnis Anda berkembang.",
+    "download_cv": "Download CV",
+    "role_line": "Full-Stack Engineer — Arsitektur Backend · Otomasi · Integrasi API"
+  },
+  "sections": {
+    "profile": "Profil",
+    "about": "Tentang",
+    "work": "Karya Pilihan",
+    "services": "Layanan",
+    "contact": "Kontak"
+  },
+  "about": {
+    "heading": "Backend-first, dibangun untuk bertumbuh.",
+    "bio": "Saya Azhar Faturohman Ahidin, Full-Stack Engineer dengan pengalaman lebih dari 4 tahun membangun sistem backend yang scalable dan berperforma tinggi menggunakan Golang (Gin) dan Python (Django). Saya banyak mengerjakan arsitektur enterprise, sistem otomatisasi, dan integrasi API — termasuk proyek yang berhasil meningkatkan efisiensi operasional klien hingga 40%. Saya terbiasa memegang siklus pengembangan penuh, dari merancang basis data (PostgreSQL/MySQL) sampai deployment dengan Docker dan Nginx, dan selalu berusaha menulis kode yang bersih serta sistem yang tetap mudah dikembangkan dalam jangka panjang.",
+    "portrait_pending": "Foto",
+    "fact_experience": "Pengalaman",
+    "fact_experience_value": "4+ tahun",
+    "fact_focus": "Fokus",
+    "fact_focus_value": "Arsitektur enterprise, otomasi, integrasi API",
+    "fact_stack": "Stack",
+    "fact_stack_value": "Go (Gin), Python (Django), PostgreSQL/MySQL",
+    "fact_available": "Terbuka untuk",
+    "fact_available_value": "Kerja lepas & kontrak jangka panjang"
+  },
+  "work": {
+    "heading": "Karya pilihan",
+    "subtitle": "Sebagian proyek yang sudah rilis — gunakan pencarian & filter di bawah untuk daftar lengkap."
+  },
+  "contact": {
+    "heading": "Mari bangun sesuatu yang reliable.",
+    "subtitle": "Punya proyek yang ingin didiskusikan? Hubungi lewat kanal yang paling nyaman.",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
   },
   "search": {
     "placeholder": "Cari portofolio...",
@@ -33,7 +66,11 @@
     "see_more": "Lihat Layanan Lainnya",
     "empty": "Belum ada layanan yang tersedia.",
     "all_products": "Semua Produk & Layanan",
-    "title_nav": "Layanan"
+    "title_nav": "Layanan",
+    "starting_from": "Mulai dari",
+    "custom_quote": "Harga khusus",
+    "custom_quote_note": "Harga menyesuaikan kebutuhan Anda — mari diskusikan",
+    "ask_whatsapp": "Tanya via WhatsApp"
   },
   "login": {
     "title": "Admin Login",
@@ -48,7 +85,8 @@
   },
   "common": {
     "loading": "Memuat...",
-    "error": "Terjadi kesalahan."
+    "error": "Terjadi kesalahan.",
+    "retry": "Coba lagi"
   },
   "admin": {
     "dashboard_title": "Admin Dashboard",
@@ -84,6 +122,10 @@
     "label_promo_price": "Harga Promo (IDR)",
     "label_redirect_url": "URL Pengalihan",
     "placeholder_redirect_url": "https://wa.me/... atau tautan toko kustom",
+    "label_features": "Yang Termasuk (pisahkan dengan koma)",
+    "placeholder_features": "Contoh: POS dengan manajemen stok, Cetak struk, Landing page 1 halaman",
+    "hint_features": "Ditampilkan sebagai daftar poin di kartu layanan/paket.",
+    "hint_custom_quote": "Biarkan kedua harga 0 untuk menampilkan \"Harga khusus\" dengan CTA WhatsApp, bukan checkout.",
     "label_active": "Tampilkan di situs web (Aktif)",
     "success_save_service": "Layanan berhasil disimpan.",
     "label_title": "Judul Project",

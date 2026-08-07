@@ -1,8 +1,41 @@
 {
   "hero": {
     "title": "Hi, I'm",
-    "description": "A highly dedicated professional. Below are the works and projects I have completed. My main focus includes Cybersecurity, Backend Development, and System Architecture.",
-    "download_cv": "Download CV"
+    "description": "I design and build the systems behind products — APIs, automation, and the infrastructure that keeps them running smoothly as they scale.",
+    "download_cv": "Download CV",
+    "role_line": "Full-Stack Engineer — Backend Architecture · Automation · API Integration"
+  },
+  "sections": {
+    "profile": "Profile",
+    "about": "About",
+    "work": "Selected Work",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "about": {
+    "heading": "Backend-first, built for growth.",
+    "bio": "I'm Azhar Faturohman Ahidin, a full-stack engineer with 4+ years building scalable, high-performance backend systems in Golang (Gin) and Python (Django). Most of my work sits in enterprise architecture, automation, and API integrations — including projects that lifted a client's operational efficiency by up to 40%. I'm comfortable owning the full development cycle, from database design (PostgreSQL/MySQL) through deployment with Docker and Nginx, and I care about writing clean code and systems built to keep working as they grow.",
+    "portrait_pending": "Photo",
+    "fact_experience": "Experience",
+    "fact_experience_value": "4+ years",
+    "fact_focus": "Focus",
+    "fact_focus_value": "Enterprise architecture, automation, API integration",
+    "fact_stack": "Stack",
+    "fact_stack_value": "Go (Gin), Python (Django), PostgreSQL/MySQL",
+    "fact_available": "Available for",
+    "fact_available_value": "Freelance & retained work"
+  },
+  "work": {
+    "heading": "Selected work",
+    "subtitle": "A sample of shipped projects — search and filter below for the full list."
+  },
+  "contact": {
+    "heading": "Let's build something reliable.",
+    "subtitle": "Have a project in mind? Reach out on whichever channel is easiest.",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
   },
   "search": {
     "placeholder": "Search portfolio...",
@@ -33,7 +66,11 @@
     "see_more": "See More Services",
     "empty": "No services available.",
     "all_products": "All Products & Services",
-    "title_nav": "Services"
+    "title_nav": "Services",
+    "starting_from": "Starting from",
+    "custom_quote": "Custom quote",
+    "custom_quote_note": "Price depends on your needs — let's talk",
+    "ask_whatsapp": "Ask via WhatsApp"
   },
   "login": {
     "title": "Admin Login",
@@ -48,7 +85,8 @@
   },
   "common": {
     "loading": "Loading...",
-    "error": "An error occurred."
+    "error": "An error occurred.",
+    "retry": "Try again"
   },
   "admin": {
     "dashboard_title": "Admin Dashboard",
@@ -84,6 +122,10 @@
     "label_promo_price": "Promo Price (IDR)",
     "label_redirect_url": "Redirect URL",
     "placeholder_redirect_url": "https://wa.me/... or custom store link",
+    "label_features": "What's Included (comma-separated)",
+    "placeholder_features": "e.g. POS with inventory, Receipt printing, 1-page landing site",
+    "hint_features": "Shown as a bullet list on the service/bundle card.",
+    "hint_custom_quote": "Leave both prices at 0 to show \"Custom quote\" with a WhatsApp CTA instead of checkout.",
     "label_active": "Show on website (Active)",
     "success_save_service": "Service saved successfully.",
     "label_title": "Project Title",
